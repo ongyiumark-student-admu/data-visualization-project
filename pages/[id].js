@@ -4,18 +4,22 @@ import dynamic from "next/dynamic";
 const ApexCharts = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 import Nav from "../components/Nav.js";
+import Ban from "../components/Ban.js";
 import { getGradientColor, linspace } from "../lib/utilities.js";
 
-export default function Games({
+export default function Genres({
   genreFocus,
   heatmapData,
-  heatmapOptions,
   gameCountData,
   gamePriceData,
-  lineChartOptions,
   topGamesCCU,
   topDevsCount,
   gameCountNoFilter,
+  totalGenreFocus,
+  totalGenreDevelopers,
+  mostExpensiveGame,
+  heatmapOptions,
+  lineChartOptions,
   barChartOptions,
   colors,
   foreColor,
@@ -25,21 +29,40 @@ export default function Games({
       <Head>
         <title>Dashboard</title>
       </Head>
-      <Nav />
+      <Nav genreFocus={genreFocus} />
+
+      <div className="flex mb-24 mt-24 justify-center w-full m-auto text-center items-center">
+        <Ban
+          number={totalGenreFocus}
+          text1={`${genreFocus} Steam Games`}
+          text2="from 2009 to 2022"
+        />
+        <Ban
+          number={`$${mostExpensiveGame.price}`}
+          text1={`Most Expensive ${genreFocus} Game`}
+          text2="from 2009 to 2022"
+          text3={mostExpensiveGame.name}
+        />
+        <Ban
+          number={totalGenreDevelopers}
+          text1={`${genreFocus} Game Developers`}
+          text2="from 2009 to 2022"
+        />
+      </div>
 
       {/* Heatmaps */}
-      <div className="flex-col items-center justify-center m-auto text-center mt-24 mb-24 w-full">
-        <div className="flex-col items-center justify-center w-4/5 m-auto">
+      <div className="flex flex-col items-center justify-center m-auto text-center mb-24 w-full">
+        <div className="flex flex-col items-center justify-center w-4/5 m-auto">
           <h1 className="text-xl font-bold">{`${genreFocus}`} Game Genres</h1>
           <p className="text-sm">Yearly Count from 2009 to 2022</p>
           <div className="w-full inline-flex justify-center">
             <ApexCharts
-              className="inline-flex items-center justify-center w-full"
+              className="inline-flex items-center justify-center w-4/5"
               options={{
                 ...heatmapOptions,
                 yaxis: {
                   labels: {
-                    style: { cssClass: "text-lg font-bold translate-y-1" },
+                    style: { cssClass: "font-bold translate-y-1" },
                   },
                 },
               }}
@@ -73,7 +96,7 @@ export default function Games({
             />
           </div>
 
-          <div className="flex-col w-2/5">
+          <div className="flex flex-col w-2/5">
             <h1 className="font-bold text-lg">
               Price of {`${genreFocus}`} Games (USD)
             </h1>
@@ -85,7 +108,7 @@ export default function Games({
                 yaxis: {
                   labels: {
                     formatter: function (label) {
-                      return `$${label}`;
+                      return `$${Math.round(label * 100) / 100}`;
                     },
                   },
                 },
@@ -99,7 +122,7 @@ export default function Games({
 
         {/* Bar Charts */}
         <div className="inline-flex items-center justify-center mt-20 w-full">
-          <div className="flex-col w-2/5">
+          <div className="flex flex-col w-2/5">
             <h1 className="font-bold text-lg">
               Top 10 {`${genreFocus}`} Games
             </h1>
@@ -113,7 +136,7 @@ export default function Games({
             />
           </div>
 
-          <div className="flex-col w-2/5">
+          <div className="flex flex-col w-2/5">
             <h1 className="font-bold text-lg">
               Top 10 {`${genreFocus}`} Game Developers
             </h1>
@@ -131,13 +154,13 @@ export default function Games({
         </div>
 
         {/* Dual Line Chart */}
-        <div className="flex-col">
+        <div className="flex flex-col w-4/5">
           <h1 className="font-bold text-xl mt-24">
             Number of {`${genreFocus}`} Games vs. Number of All Games
           </h1>
           <p className="text-sm">Monthly Count from Jan 2009 to Dec 2022</p>
           <ApexCharts
-            className="inline-flex items-center justify-center w-4/5"
+            className="inline-flex items-center justify-center w-full"
             options={{
               ...lineChartOptions,
               colors: [colors[1], colors[0]],
@@ -263,9 +286,14 @@ async function getHeatmapData(
       legend: { show: false },
     };
 
+    let totalGenreFocus = 0;
+    let genreFocusData = heatmap_series.filter((g) => g.name == genreFocus);
+    for (let d of genreFocusData[0].data) totalGenreFocus += d.y;
+
     return {
       heatmapData: JSON.parse(JSON.stringify(heatmap_series)),
       heatmapOptions: heatmapOptions,
+      totalGenreFocus: totalGenreFocus,
     };
   } catch (e) {
     console.error(e);
@@ -358,7 +386,7 @@ async function getTimeData(db, genreFocus, l_year, r_year, colors, foreColor) {
 
     let gameCountData = [
       {
-        name: `Number of ${genreFocus} Games`,
+        name: `${genreFocus} Games`,
         data: timeData.map((tdata) => ({
           x: `${tdata._id.year}-${tdata._id.month}`,
           y: tdata.games_count,
@@ -368,7 +396,7 @@ async function getTimeData(db, genreFocus, l_year, r_year, colors, foreColor) {
 
     let gameCountNoFilter = [
       {
-        name: `Number of All Games`,
+        name: `All Games`,
         data: timeDataNoFilter.map((tdata) => ({
           x: `${tdata._id.year}-${tdata._id.month}`,
           y: tdata.games_count,
@@ -382,7 +410,7 @@ async function getTimeData(db, genreFocus, l_year, r_year, colors, foreColor) {
         name: `${genreFocus} Game Price (USD)`,
         data: timeData.map((tdata) => ({
           x: `${tdata._id.year}-${tdata._id.month}`,
-          y: Math.round(tdata.avg_price * 100) / 100,
+          y: tdata.avg_price,
         })),
       },
     ];
@@ -511,11 +539,78 @@ async function getBarData(db, genreFocus, l_year, r_year, colors, foreColor) {
   }
 }
 
-export async function getStaticProps() {
+async function getBanData(db, genreFocus, l_year, r_year, colors, foreColor) {
+  try {
+    const devData = await db
+      .collection("games")
+      .aggregate([
+        {
+          $project: {
+            _id: 0,
+            converted_date: 1,
+            year: { $year: "$converted_date" },
+            genres: 1,
+            developers: 1,
+          },
+        },
+        {
+          $match: {
+            $and: [
+              { year: { $gte: 2009 } },
+              { year: { $lte: 2022 } },
+              { genres: genreFocus },
+            ],
+          },
+        },
+        { $unwind: "$developers" },
+        { $group: { _id: "$developers", games_count: { $sum: 1 } } },
+      ])
+      .toArray();
+
+    const priceData = await db
+      .collection("games")
+      .aggregate([
+        {
+          $project: {
+            _id: 0,
+            converted_date: 1,
+            year: { $year: "$converted_date" },
+            genres: 1,
+            price: 1,
+            name: 1
+          },
+        },
+        {
+          $match: {
+            $and: [
+              { year: { $gte: 2009 } },
+              { year: { $lte: 2022 } },
+              { genres: genreFocus },
+            ],
+          },
+        },
+      ])
+      .sort({ price: -1 })
+      .limit(1)
+      .toArray();
+    return {
+      totalGenreDevelopers: devData.length,
+      mostExpensiveGame: {
+        price: priceData[0].price,
+        name: priceData[0].name
+      }
+    };
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+export async function getStaticProps({ params }) {
   try {
     const client = await clientPromise;
     const db = client.db("steam_games");
-    let genreFocus = "Indie";
+
+    let genreFocus = params.id;
     let l_year = 2009;
     let r_year = 2022;
     let colors = ["#0504aa", "#006600"];
@@ -545,12 +640,21 @@ export async function getStaticProps() {
       colors,
       foreColor
     );
+    const banProps = await getBanData(
+      db,
+      genreFocus,
+      l_year,
+      r_year,
+      colors,
+      foreColor
+    );
 
     return {
       props: {
         ...heatmapProps,
         ...timeProps,
         ...barProps,
+        ...banProps,
         genreFocus: genreFocus,
         colors: colors,
         foreColor: foreColor,
@@ -558,5 +662,32 @@ export async function getStaticProps() {
     };
   } catch (e) {
     console.error(e);
+  }
+}
+
+export async function getStaticPaths() {
+  try {
+    const client = await clientPromise;
+    const db = client.db("steam_games");
+
+    const genres = await db
+      .collection("games")
+      .aggregate([
+        { $project: { genres: 1 } },
+        { $unwind: "$genres" },
+        { $group: { _id: { genres: "$genres" }, n: { $sum: 1 } } },
+      ])
+      .toArray();
+
+    const result = genres.map((g) => ({
+      params: { id: g._id.genres },
+    }));
+
+    return {
+      paths: result,
+      fallback: false,
+    };
+  } catch (e) {
+    console.log(e);
   }
 }
