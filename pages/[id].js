@@ -31,7 +31,7 @@ export default function Genres({
       </Head>
       <Nav genreFocus={genreFocus} />
 
-      <div className="flex mb-24 mt-24 justify-center w-full m-auto text-center items-center">
+      <div className="flex flex-row flex-wrap mb-12 mt-24 justify-center m-auto text-center items-center">
         <Ban
           number={totalGenreFocus}
           text1={`${genreFocus} Steam Games`}
@@ -81,8 +81,8 @@ export default function Genres({
         </div>
 
         {/* Line Charts */}
-        <div className="inline-flex items-center justify-center mt-24 w-full">
-          <div className="flex-col w-2/5">
+        <div className="flex flex-row flex-wrap items-center justify-center mt-24 w-4/5">
+          <div className="flex flex-col w-full max-w-xl min-w-fit mb-12 mx-auto items-center justify-center">
             <h1 className="font-bold text-lg">
               Number of {`${genreFocus}`} Games
             </h1>
@@ -96,7 +96,7 @@ export default function Genres({
             />
           </div>
 
-          <div className="flex flex-col w-2/5">
+          <div className="flex flex-col w-full max-w-xl min-w-fit mb-12 mx-auto items-center justify-center">
             <h1 className="font-bold text-lg">
               Price of {`${genreFocus}`} Games (USD)
             </h1>
@@ -121,22 +121,24 @@ export default function Genres({
         </div>
 
         {/* Bar Charts */}
-        <div className="inline-flex items-center justify-center mt-20 w-full">
-          <div className="flex flex-col w-2/5">
+        <div className="inline-flex flex-wrap items-center justify-center mt-20 w-4/5">
+          <div className="flex flex-col w-full max-w-md min-w-fit mb-12 mx-auto items-center justify-center">
             <h1 className="font-bold text-lg">
               Top 10 {`${genreFocus}`} Games
             </h1>
             <p className="text-xs">Peak Concurrent Users</p>
             <ApexCharts
-              className="inline-flex items-center justify-center w-full"
-              options={barChartOptions}
+              className="inline-flex items-center justify-center w-full ml-10 mr-10"
+              options={{
+                ...barChartOptions,
+              }}
               series={topGamesCCU}
               type="bar"
               height={300}
             />
           </div>
 
-          <div className="flex flex-col w-2/5">
+          <div className="flex flex-col w-full max-w-md min-w-fit mx-auto items-center justify-center">
             <h1 className="font-bold text-lg">
               Top 10 {`${genreFocus}`} Game Developers
             </h1>
@@ -144,7 +146,7 @@ export default function Genres({
               Number of {`${genreFocus}`} Games Developed
             </p>
             <ApexCharts
-              className="inline-flex items-center justify-center w-full"
+              className="inline-flex items-center justify-center w-full ml-10 mr-10"
               options={barChartOptions}
               series={topDevsCount}
               type="bar"
@@ -456,6 +458,7 @@ async function getBarData(db, genreFocus, l_year, r_year, colors, foreColor) {
             year: { $year: "$converted_date" },
             genres: 1,
             name: 1,
+            short_description: 1
           },
         },
         {
@@ -467,7 +470,7 @@ async function getBarData(db, genreFocus, l_year, r_year, colors, foreColor) {
             ],
           },
         },
-        { $project: { _id: 0, name: 1, peak_ccu: 1 } },
+        { $project: { _id: 0, name: 1, peak_ccu: 1, short_description: 1 } },
       ])
       .sort({ peak_ccu: -1 })
       .limit(10)
@@ -479,6 +482,7 @@ async function getBarData(db, genreFocus, l_year, r_year, colors, foreColor) {
         data: ccuData.map((tdata) => ({
           x: tdata.name,
           y: tdata.peak_ccu,
+          z: tdata.short_description
         })),
       },
     ];
