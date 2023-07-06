@@ -6,7 +6,13 @@ export default function Nav() {
       </div>
       <div className="flex-row w-1/2 items-end text-right">
         <h1 className="mr-7 text-slate-400 text-sm">
-          <a href="https://github.com/ongyiumark" className="hover:text-slate-500">Mark Kevin A. Ong Yiu</a> and David Demitri Africa
+          <a
+            href="https://github.com/ongyiumark"
+            className="hover:text-slate-500"
+          >
+            Mark Kevin A. Ong Yiu
+          </a>{" "}
+          and David Demitri Africa
         </h1>
       </div>
     </div>
