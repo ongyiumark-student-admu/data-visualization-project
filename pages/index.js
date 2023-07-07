@@ -20,7 +20,7 @@ export default function Home( {genres} ) {
         <div className="flex-row-center flex-wrap">
           {
             genres.map((g) => (
-              <a key={g} href={`/${g}`} className="m-4 dynamic-w-xs">
+              <a key={g} href={`/${g}`} className="m-2 dynamic-w-xs">
                 <div className="flex-col-center text-center bg-stone-100 rounded-2xl px-5 h-28 hover:bg-stone-200">
                   {g}
                 </div>
