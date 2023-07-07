@@ -3,7 +3,7 @@ export default function Nav( {genreFocus} ) {
     <div className="flex-row-center bg-slate-900 text-white w-full h-fit fixed top-0 z-20">
       <div className="flex-justify-start w-1/2 py-3 px-5">
         <h1 className="font-extrabold text-xl shrink">
-        <a href="/" className="font-extrabold text-xl shrink hover:text-stone-300">Data Story</a>{genreFocus && `: ${genreFocus} Steam Games`}
+        <a href="/" className="font-extrabold text-xl shrink hover:text-stone-300">Data Story</a>
         </h1>
       </div>
       <div className="flex-justify-end w-1/2 py-3 px-5">
