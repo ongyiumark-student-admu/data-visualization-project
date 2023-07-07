@@ -20,6 +20,10 @@
 }
 
 /* dynamic width helper classes */
+.dynamic-w-xs {
+  @apply w-full min-w-fit max-w-xs;
+}
+
 .dynamic-w-sm {
   @apply w-full min-w-fit max-w-sm;
 }

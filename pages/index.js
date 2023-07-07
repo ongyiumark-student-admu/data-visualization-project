@@ -17,10 +17,14 @@ export default function Home( {genres} ) {
         <h1>All Genres</h1>
         <p>Alternatively, you may choose one of the other genres below to explore.</p>
 
-        <div className="grid grid-cols-5 gap-4">
-          { 
+        <div className="flex-row-center flex-wrap">
+          {
             genres.map((g) => (
-              <a key={g} href={`/${g}`}><div className="flex-col-center text-center bg-stone-100 rounded-2xl px-5 h-28 hover:bg-stone-200">{g}</div></a>
+              <a key={g} href={`/${g}`} className="m-4 dynamic-w-xs">
+                <div className="flex-col-center text-center bg-stone-100 rounded-2xl px-5 h-28 hover:bg-stone-200">
+                  {g}
+                </div>
+              </a>
             ))
           }
         </div>
