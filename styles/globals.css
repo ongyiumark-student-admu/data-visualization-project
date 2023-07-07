@@ -1,3 +1,50 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* flex helper classes */
+.flex-row-center {
+  @apply flex flex-row items-center justify-center;
+}
+
+.flex-col-center {
+  @apply flex flex-col items-center justify-center;
+}
+
+.flex-justify-start {
+  @apply flex flex-row items-center justify-start;
+}
+
+.flex-justify-end {
+  @apply flex flex-row items-center justify-end;
+}
+
+/* dynamic width helper classes */
+.dynamic-w-sm {
+  @apply w-full min-w-fit max-w-sm;
+}
+
+.dynamic-w-md {
+  @apply w-full min-w-fit max-w-md;
+}
+
+.dynamic-w-lg {
+  @apply w-full min-w-fit max-w-lg;
+}
+
+.dynamic-w-xl {
+  @apply w-full min-w-fit max-w-xl;
+}
+
+/* article classes */
+.article h1 {
+  @apply text-royalblue text-3xl font-extrabold my-3;
+}
+
+.article p {
+  @apply text-slate-700 text-lg my-3;
+}
+
+.article a {
+  @apply text-blue-700 text-lg hover:text-slate-900;
+}
