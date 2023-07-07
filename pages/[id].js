@@ -31,7 +31,7 @@ export default function Genres({
       </Head>
       <Nav genreFocus={genreFocus} />
 
-      <div className="flex flex-row flex-wrap mb-12 mt-24 justify-center m-auto text-center items-center">
+      <div className="flex-row-center flex-wrap my-24">
         <Ban
           number={totalGenreFocus}
           text1={`${genreFocus} Steam Games`}
@@ -51,18 +51,18 @@ export default function Genres({
       </div>
 
       {/* Heatmaps */}
-      <div className="flex flex-col items-center justify-center m-auto text-center mb-24 w-full">
-        <div className="flex flex-col items-center justify-center w-4/5 m-auto">
+      <div className="flex-col-center my-12 w-full">
+        <div className="flex-col-center w-4/5">
           <h1 className="text-xl font-bold">{`${genreFocus}`} Game Genres</h1>
           <p className="text-sm">Yearly Count from 2009 to 2022</p>
-          <div className="w-full inline-flex justify-center">
+          <div className="flex-row-center w-full">
             <ApexCharts
-              className="inline-flex items-center justify-center w-4/5"
+              className="flex-row-center w-4/5"
               options={{
                 ...heatmapOptions,
                 yaxis: {
                   labels: {
-                    style: { cssClass: "font-bold translate-y-1" },
+                    style: { cssClass: "text-lg font-bold px-3 translate-y-1" },
                   },
                 },
               }}
@@ -72,7 +72,7 @@ export default function Genres({
             />
           </div>
           <ApexCharts
-            className="inline-flex items-center justify-center w-full"
+            className="flex-row-center w-full"
             options={heatmapOptions}
             series={heatmapData.filter((game) => game.name != genreFocus)}
             type="heatmap"
@@ -81,14 +81,14 @@ export default function Genres({
         </div>
 
         {/* Line Charts */}
-        <div className="flex flex-row flex-wrap items-center justify-center mt-24 w-4/5">
-          <div className="flex flex-col w-full max-w-xl min-w-fit mb-12 mx-auto items-center justify-center">
-            <h1 className="font-bold text-lg">
+        <div className="flex-row-center flex-wrap w-4/5 mt-20 mb-6">
+          <div className="flex-col-center dynamic-w-lg m-6">
+            <h1 className="text-lg font-bold">
               Number of {`${genreFocus}`} Games
             </h1>
             <p className="text-xs">Monthly Count from Jan 2009 to Dec 2022</p>
             <ApexCharts
-              className="inline-flex items-center justify-center w-full"
+              className="flex-row-center w-full"
               options={lineChartOptions}
               series={gameCountData}
               type="line"
@@ -96,13 +96,13 @@ export default function Genres({
             />
           </div>
 
-          <div className="flex flex-col w-full max-w-xl min-w-fit mb-12 mx-auto items-center justify-center">
+          <div className="flex-col-center dynamic-w-lg m-6">
             <h1 className="font-bold text-lg">
               Price of {`${genreFocus}`} Games (USD)
             </h1>
             <p className="text-xs">Monthly Average from Jan 2009 to Dec 2022</p>
             <ApexCharts
-              className="inline-flex items-center justify-center w-full"
+              className="flex-row-center w-full"
               options={{
                 ...lineChartOptions,
                 yaxis: {
@@ -121,14 +121,14 @@ export default function Genres({
         </div>
 
         {/* Bar Charts */}
-        <div className="inline-flex flex-wrap items-center justify-center mt-20 w-4/5">
-          <div className="flex flex-col w-full max-w-md min-w-fit mb-12 mx-auto items-center justify-center">
+        <div className="flex-row-center flex-wrap w-4/5 my-6">
+          <div className="flex-col-center dynamic-w-lg m-6">
             <h1 className="font-bold text-lg">
               Top 10 {`${genreFocus}`} Games
             </h1>
             <p className="text-xs">Peak Concurrent Users</p>
             <ApexCharts
-              className="inline-flex items-center justify-center w-full ml-10 mr-10"
+              className="flex-row-center w-full"
               options={{
                 ...barChartOptions,
               }}
@@ -138,7 +138,7 @@ export default function Genres({
             />
           </div>
 
-          <div className="flex flex-col w-full max-w-md min-w-fit mx-auto items-center justify-center">
+          <div className="flex-col-center dynamic-w-lg m-6">
             <h1 className="font-bold text-lg">
               Top 10 {`${genreFocus}`} Game Developers
             </h1>
@@ -146,7 +146,7 @@ export default function Genres({
               Number of {`${genreFocus}`} Games Developed
             </p>
             <ApexCharts
-              className="inline-flex items-center justify-center w-full ml-10 mr-10"
+              className="flex-row-center w-full"
               options={barChartOptions}
               series={topDevsCount}
               type="bar"
@@ -156,13 +156,13 @@ export default function Genres({
         </div>
 
         {/* Dual Line Chart */}
-        <div className="flex flex-col w-4/5">
-          <h1 className="font-bold text-xl mt-24">
+        <div className="flex-col-center w-4/5 my-12">
+          <h1 className="text-xl font-bold">
             Number of {`${genreFocus}`} Games vs. Number of All Games
           </h1>
           <p className="text-sm">Monthly Count from Jan 2009 to Dec 2022</p>
           <ApexCharts
-            className="inline-flex items-center justify-center w-full"
+            className="flex-row-center w-full"
             options={{
               ...lineChartOptions,
               colors: [colors[1], colors[0]],

@@ -20,7 +20,8 @@ module.exports = {
       indigo: colors.indigo,
       yellow: colors.yellow,
       slate: colors.slate,
-      stone: colors.stone
+      stone: colors.stone,
+      blue: colors.blue
     },
     extend: {},
   },
