@@ -4,11 +4,11 @@
 
 /* flex helper classes */
 .flex-row-center {
-  @apply flex flex-row items-center justify-center;
+  @apply flex flex-row items-center justify-center text-center;
 }
 
 .flex-col-center {
-  @apply flex flex-col items-center justify-center;
+  @apply flex flex-col items-center justify-center text-center;
 }
 
 .flex-justify-start {

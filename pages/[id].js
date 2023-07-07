@@ -30,8 +30,10 @@ export default function Genres({
         <title>Dashboard</title>
       </Head>
       <Nav genreFocus={genreFocus} />
-
-      <div className="flex-row-center flex-wrap my-24">
+      <div className="flex-row-center mt-24 shrink">
+        <h1 className="text-royalblue text-5xl font-extrabold">{genreFocus} Steam Games</h1>
+      </div>
+      <div className="flex-row-center flex-wrap my-12">
         <Ban
           number={totalGenreFocus}
           text1={`${genreFocus} Steam Games`}
@@ -130,7 +132,7 @@ export default function Genres({
             <ApexCharts
               className="flex-row-center w-full"
               options={{
-                ...barChartOptions,
+                ...barChartOptions
               }}
               series={topGamesCCU}
               type="bar"
@@ -482,7 +484,7 @@ async function getBarData(db, genreFocus, l_year, r_year, colors, foreColor) {
         data: ccuData.map((tdata) => ({
           x: tdata.name,
           y: tdata.peak_ccu,
-          z: tdata.short_description
+          description: tdata.short_description
         })),
       },
     ];
