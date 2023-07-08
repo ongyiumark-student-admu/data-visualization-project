@@ -68,7 +68,7 @@ export default function Genres({
         ></img>
         <div className="flex flex-col mx-5 dynamic-w-sm">
           <h1 className="font-extrabold text-4xl">{topGameFullData.name}</h1>
-          <p className="font-bold text-lg">{topGameFullData.peak_ccu} Peak Concurrent Users</p>
+          <p className="font-bold text-lg">{topGameFullData.peak_ccu.toLocaleString("en-US")} Peak Concurrent Users</p>
           <p className="instructions">{genreFocus} Game with highest peak concurrent users in Steam as of Dec 2022</p>
 
           <p className="my-3 text-justify max-w-xl">
