@@ -14,6 +14,7 @@ export default function Genres({
   gamePriceData,
   topGamesCCU,
   topDevsCount,
+  topGameFullData,
   gameCountNoFilter,
   totalGenreFocus,
   totalGenreDevelopers,
@@ -30,13 +31,20 @@ export default function Genres({
         <title>Dashboard</title>
       </Head>
       <Nav genreFocus={genreFocus} />
-      <div className="flex-row-center mt-24 shrink">
-        <h1 className="text-royalblue text-5xl font-extrabold">{genreFocus} Steam Games</h1>
+      <div className="flex-row-center shrink">
+        <h1 className="text-royalblue text-5xl font-extrabold">
+          {genreFocus} Steam Games
+        </h1>
       </div>
-      <div className="flex-row-center flex-wrap my-12">
+      <div className="flex-row-center flex-wrap mt-3 mb-6">
         <Ban
           number={totalGenreFocus}
           text1={`${genreFocus} Steam Games`}
+          text2="from 2009 to 2022"
+        />
+        <Ban
+          number={totalGenreDevelopers}
+          text1={`${genreFocus} Game Developers`}
           text2="from 2009 to 2022"
         />
         <Ban
@@ -46,31 +54,59 @@ export default function Genres({
           text3={mostExpensiveGame.name}
         />
         <Ban
-          number={totalGenreDevelopers}
-          text1={`${genreFocus} Game Developers`}
-          text2="from 2009 to 2022"
+          number={topGameFullData.peak_ccu}
+          text1={`Highest Peak Concurrent Users`}
+          text2={`${genreFocus} Games from 2009 to 2022`}
+          text3={topGameFullData.name}
         />
       </div>
+
+      <div className="flex-row-center h-fit px-10 py-6 m-auto w-5/6 shrink text-royalblue text-justify flex-wrap">
+        <img
+          src={topGameFullData.header_image}
+          className="mx-5 rounded-xl my-5"
+        ></img>
+        <div className="flex flex-col mx-5 dynamic-w-sm">
+          <h1 className="font-extrabold text-4xl">{topGameFullData.name}</h1>
+          <p className="font-bold text-lg">{topGameFullData.peak_ccu.toLocaleString("en-US")} Peak Concurrent Users</p>
+          <p className="instructions">{genreFocus} Game with highest peak concurrent users in Steam as of Dec 2022</p>
+
+          <p className="my-3 text-justify max-w-xl">
+            {topGameFullData.short_description}
+          </p>
+
+          <div className="text-justify">
+            <p>
+              <span className="text-slate-700">Release Date:</span>{" "}
+              {topGameFullData.release_date}
+            </p>
+            <p>
+              <span className="text-slate-700">Metacritic Score:</span>{" "}
+              {topGameFullData.metacritic_score}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <hr class="h-px my-12 bg-slate-400 border-0" />
 
       {/* Heatmaps */}
       <div className="flex-col-center my-12 w-full">
         <div className="flex-col-center w-4/5">
-          <h1 className="text-xl font-bold">{`${genreFocus}`} Game Genres</h1>
-          <p className="text-sm">Yearly Count from 2009 to 2022</p>
+          <h1 className="text-2xl font-bold">{`${genreFocus}`} Game Genres</h1>
+          <p className="text-base">Yearly Count from 2009 to 2022</p>
+          <p className="instructions">You may hover to inspect the value</p>
           <div className="flex-row-center w-full">
+            <h1 className="text-lg font-bold -translate-y-1">{genreFocus}</h1>
             <ApexCharts
               className="flex-row-center w-4/5"
               options={{
                 ...heatmapOptions,
-                yaxis: {
-                  labels: {
-                    style: { cssClass: "text-lg font-bold px-3 translate-y-1" },
-                  },
-                },
+                yaxis: { show: false },
               }}
               series={heatmapData.filter((game) => game.name == genreFocus)}
               type="heatmap"
-              height={90}
+              height={100}
             />
           </div>
           <ApexCharts
@@ -85,10 +121,11 @@ export default function Genres({
         {/* Line Charts */}
         <div className="flex-row-center flex-wrap w-4/5 mt-20 mb-6">
           <div className="flex-col-center dynamic-w-lg m-6">
-            <h1 className="text-lg font-bold">
+            <h1 className="text-xl font-bold">
               Number of {`${genreFocus}`} Games
             </h1>
-            <p className="text-xs">Monthly Count from Jan 2009 to Dec 2022</p>
+            <p className="text-base">Monthly Count from Jan 2009 to Dec 2022</p>
+            <p className="instructions">You may click the buttons to navigate and highlight to zoom</p>
             <ApexCharts
               className="flex-row-center w-full"
               options={lineChartOptions}
@@ -99,10 +136,11 @@ export default function Genres({
           </div>
 
           <div className="flex-col-center dynamic-w-lg m-6">
-            <h1 className="font-bold text-lg">
+            <h1 className="font-bold text-xl">
               Price of {`${genreFocus}`} Games (USD)
             </h1>
-            <p className="text-xs">Monthly Average from Jan 2009 to Dec 2022</p>
+            <p className="text-base">Monthly Average from Jan 2009 to Dec 2022</p>
+            <p className="instructions">You may click the buttons to navigate and highlight to zoom</p>
             <ApexCharts
               className="flex-row-center w-full"
               options={{
@@ -125,14 +163,15 @@ export default function Genres({
         {/* Bar Charts */}
         <div className="flex-row-center flex-wrap w-4/5 my-6">
           <div className="flex-col-center dynamic-w-lg m-6">
-            <h1 className="font-bold text-lg">
+            <h1 className="font-bold text-xl">
               Top 10 {`${genreFocus}`} Games
             </h1>
-            <p className="text-xs">Peak Concurrent Users</p>
+            <p className="text-base">Peak Concurrent Users</p>
+            <p className="instructions">You may hover to inspect the value</p>
             <ApexCharts
               className="flex-row-center w-full"
               options={{
-                ...barChartOptions
+                ...barChartOptions,
               }}
               series={topGamesCCU}
               type="bar"
@@ -141,12 +180,13 @@ export default function Genres({
           </div>
 
           <div className="flex-col-center dynamic-w-lg m-6">
-            <h1 className="font-bold text-lg">
+            <h1 className="font-bold text-xl">
               Top 10 {`${genreFocus}`} Game Developers
             </h1>
-            <p className="text-xs">
+            <p className="text-base">
               Number of {`${genreFocus}`} Games Developed
             </p>
+            <p className="instructions">You may hover to inspect the value</p>
             <ApexCharts
               className="flex-row-center w-full"
               options={barChartOptions}
@@ -159,10 +199,12 @@ export default function Genres({
 
         {/* Dual Line Chart */}
         <div className="flex-col-center w-4/5 my-12">
-          <h1 className="text-xl font-bold">
+          <h1 className="text-2xl font-bold">
             Number of {`${genreFocus}`} Games vs. Number of All Games
           </h1>
-          <p className="text-sm">Monthly Count from Jan 2009 to Dec 2022</p>
+          <p className="text-base">Monthly Count from Jan 2009 to Dec 2022</p>
+          <p className="instructions">You may click the buttons to navigate and highlight to zoom</p>
+          <p className="instructions">You may also click the labels to show and hide graphs</p>
           <ApexCharts
             className="flex-row-center w-full"
             options={{
@@ -460,7 +502,7 @@ async function getBarData(db, genreFocus, l_year, r_year, colors, foreColor) {
             year: { $year: "$converted_date" },
             genres: 1,
             name: 1,
-            short_description: 1
+            short_description: 1,
           },
         },
         {
@@ -484,7 +526,7 @@ async function getBarData(db, genreFocus, l_year, r_year, colors, foreColor) {
         data: ccuData.map((tdata) => ({
           x: tdata.name,
           y: tdata.peak_ccu,
-          description: tdata.short_description
+          description: tdata.short_description,
         })),
       },
     ];
@@ -535,10 +577,25 @@ async function getBarData(db, genreFocus, l_year, r_year, colors, foreColor) {
       colors: [colors[0]],
     };
 
+    let topGame = ccuData[0].name;
+    const topGameFullData = await db
+      .collection("games")
+      .find({ name: topGame })
+      .project( {
+        name: 1,
+        short_description: 1,
+        release_date: 1,
+        metacritic_score : 1,
+        header_image: 1,
+        peak_ccu : 1,
+      })
+      .toArray();
+
     return {
       topGamesCCU: topGamesCCU,
       topDevsCount: topDevsCount,
       barChartOptions: barChartOptions,
+      topGameFullData: JSON.parse(JSON.stringify(topGameFullData))[0],
     };
   } catch (e) {
     console.error(e);
@@ -583,7 +640,7 @@ async function getBanData(db, genreFocus, l_year, r_year, colors, foreColor) {
             year: { $year: "$converted_date" },
             genres: 1,
             price: 1,
-            name: 1
+            name: 1,
           },
         },
         {
@@ -603,8 +660,8 @@ async function getBanData(db, genreFocus, l_year, r_year, colors, foreColor) {
       totalGenreDevelopers: devData.length,
       mostExpensiveGame: {
         price: priceData[0].price,
-        name: priceData[0].name
-      }
+        name: priceData[0].name,
+      },
     };
   } catch (e) {
     console.log(e);

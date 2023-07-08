@@ -46,13 +46,18 @@
 
 /* article classes */
 .article h1 {
-  @apply text-royalblue text-3xl font-extrabold my-3;
+  @apply text-royalblue text-3xl font-extrabold mb-3 mt-8;
 }
 
 .article p {
-  @apply text-slate-700 text-lg my-3;
+  @apply text-slate-700 text-lg my-3 text-justify;
 }
 
 .article a {
   @apply text-blue-700 text-lg hover:text-slate-900;
+}
+
+/* others */
+.instructions {
+  @apply text-xs italic text-stone-500;
 }
