@@ -10,12 +10,12 @@ import { getGradientColor, linspace } from "../lib/utilities.js";
 export default function Genres({
   genreFocus,
   heatmapData,
-  gameCountData,
-  gamePriceData,
   topGamesCCU,
   topDevsCount,
   topGameFullData,
   gameCountNoFilter,
+  gamePriceNoFilter,
+  gameScoreNoFilter,
   totalGenreFocus,
   totalGenreDevelopers,
   mostExpensiveGame,
@@ -68,8 +68,14 @@ export default function Genres({
         ></img>
         <div className="flex flex-col mx-5 dynamic-w-sm">
           <h1 className="font-extrabold text-4xl">{topGameFullData.name}</h1>
-          <p className="font-bold text-lg">{topGameFullData.peak_ccu.toLocaleString("en-US")} Peak Concurrent Users</p>
-          <p className="instructions">{genreFocus} Game with highest peak concurrent users in Steam as of Dec 2022</p>
+          <p className="font-bold text-lg">
+            {topGameFullData.peak_ccu.toLocaleString("en-US")} Peak Concurrent
+            Users
+          </p>
+          <p className="instructions">
+            {genreFocus} Game with highest peak concurrent users in Steam as of
+            Dec 2022
+          </p>
 
           <p className="my-3 text-justify max-w-xl">
             {topGameFullData.short_description}
@@ -125,11 +131,13 @@ export default function Genres({
               Number of {`${genreFocus}`} Games
             </h1>
             <p className="text-base">Monthly Count from Jan 2009 to Dec 2022</p>
-            <p className="instructions">You may click the buttons to navigate and highlight to zoom</p>
+            <p className="instructions">
+              You may click the buttons to navigate and highlight to zoom
+            </p>
             <ApexCharts
               className="flex-row-center w-full"
               options={lineChartOptions}
-              series={gameCountData}
+              series={[gameCountNoFilter[1]]}
               type="line"
               height={300}
             />
@@ -139,8 +147,12 @@ export default function Genres({
             <h1 className="font-bold text-xl">
               Price of {`${genreFocus}`} Games (USD)
             </h1>
-            <p className="text-base">Monthly Average from Jan 2009 to Dec 2022</p>
-            <p className="instructions">You may click the buttons to navigate and highlight to zoom</p>
+            <p className="text-base">
+              Monthly Average Price in USD from Jan 2009 to Dec 2022
+            </p>
+            <p className="instructions">
+              You may click the buttons to navigate and highlight to zoom
+            </p>
             <ApexCharts
               className="flex-row-center w-full"
               options={{
@@ -153,7 +165,35 @@ export default function Genres({
                   },
                 },
               }}
-              series={gamePriceData}
+              series={[gamePriceNoFilter[1]]}
+              type="line"
+              height={300}
+            />
+          </div>
+
+          <div className="flex-col-center dynamic-w-lg m-6">
+            <h1 className="font-bold text-xl">
+              Metacritic Score of {`${genreFocus}`} Games
+            </h1>
+            <p className="text-base">
+              Monthly Average Metacritic Score from Jan 2009 to Dec 2022
+            </p>
+            <p className="instructions">
+              You may click the buttons to navigate and highlight to zoom
+            </p>
+            <ApexCharts
+              className="flex-row-center w-full"
+              options={{
+                ...lineChartOptions,
+                yaxis: {
+                  labels: {
+                    formatter: function (label) {
+                      return `${Math.round(label * 100) / 100}`;
+                    },
+                  },
+                },
+              }}
+              series={[gameScoreNoFilter[1]]}
               type="line"
               height={300}
             />
@@ -196,15 +236,28 @@ export default function Genres({
             />
           </div>
         </div>
+      </div>
 
+        <hr class="h-px my-12 bg-slate-400 border-0" />
+      
+      <div className="flex-col-center my-12 w-full">
+        <div className="flex-row-center shrink mt-6">
+          <h1 className="text-royalblue text-5xl font-extrabold">
+            Comparative Analysis with All Games
+          </h1>
+        </div>
         {/* Dual Line Chart */}
         <div className="flex-col-center w-4/5 my-12">
           <h1 className="text-2xl font-bold">
             Number of {`${genreFocus}`} Games vs. Number of All Games
           </h1>
           <p className="text-base">Monthly Count from Jan 2009 to Dec 2022</p>
-          <p className="instructions">You may click the buttons to navigate and highlight to zoom</p>
-          <p className="instructions">You may also click the labels to show and hide graphs</p>
+          <p className="instructions">
+            You may click the buttons to navigate and highlight to zoom
+          </p>
+          <p className="instructions">
+            You may also click the labels to show and hide graphs
+          </p>
           <ApexCharts
             className="flex-row-center w-full"
             options={{
@@ -212,6 +265,71 @@ export default function Genres({
               colors: [colors[1], colors[0]],
             }}
             series={gameCountNoFilter}
+            type="line"
+            height={300}
+          />
+        </div>
+
+        <div className="flex-col-center w-4/5 my-6">
+          <h1 className="text-2xl font-bold">
+            Price of {`${genreFocus}`} Games vs. Price of All Games (USD)
+          </h1>
+          <p className="text-base">
+            Monthly Average Price in USD from Jan 2009 to Dec 2022
+          </p>
+          <p className="instructions">
+            You may click the buttons to navigate and highlight to zoom
+          </p>
+          <p className="instructions">
+            You may also click the labels to show and hide graphs
+          </p>
+          <ApexCharts
+            className="flex-row-center w-full"
+            options={{
+              ...lineChartOptions,
+              colors: [colors[1], colors[0]],
+              yaxis: {
+                labels: {
+                  formatter: function (label) {
+                    return `$${Math.round(label * 100) / 100}`;
+                  },
+                },
+              },
+            }}
+            series={gamePriceNoFilter}
+            type="line"
+            height={300}
+          />
+        </div>
+
+        <div className="flex-col-center w-4/5 my-6">
+          <h1 className="text-2xl font-bold">
+            Metacritic Score of {`${genreFocus}`} Games vs. Metacritic Score of
+            All Games
+          </h1>
+          <p className="text-base">
+            Monthly Average Metacritic Score from Jan 2009 to Dec 2022
+          </p>
+          <p className="instructions">
+            You may click the buttons to navigate and highlight to zoom
+          </p>
+          <p className="instructions">
+            You may also click the labels to show and hide graphs
+          </p>
+          <ApexCharts
+            className="flex-row-center w-full"
+            options={{
+              ...lineChartOptions,
+              colors: [colors[1], colors[0]],
+              yaxis: {
+                labels: {
+                  formatter: function (label) {
+                    return `${Math.round(label * 100) / 100}`;
+                  },
+                },
+              },
+            }}
+            series={gameScoreNoFilter}
             type="line"
             height={300}
           />
@@ -359,6 +477,7 @@ async function getTimeData(db, genreFocus, l_year, r_year, colors, foreColor) {
             price: 1,
             year: { $year: "$converted_date" },
             genres: 1,
+            metacritic_score: 1,
           },
         },
         {
@@ -378,6 +497,41 @@ async function getTimeData(db, genreFocus, l_year, r_year, colors, foreColor) {
             },
             games_count: { $sum: 1 },
             avg_price: { $avg: "$price" },
+            avg_score: { $avg: "$metacritic_score" },
+          },
+        },
+      ])
+      .toArray();
+
+    const timeMetacriticData = await db
+      .collection("games")
+      .aggregate([
+        {
+          $project: {
+            _id: 0,
+            converted_date: 1,
+            year: { $year: "$converted_date" },
+            genres: 1,
+            metacritic_score: 1,
+          },
+        },
+        {
+          $match: {
+            $and: [
+              { year: { $gte: l_year } },
+              { year: { $lte: r_year } },
+              { metacritic_score: { $gt: 0 } },
+              { genres: genreFocus },
+            ],
+          },
+        },
+        {
+          $group: {
+            _id: {
+              year: { $year: "$converted_date" },
+              month: { $month: "$converted_date" },
+            },
+            avg_score: { $avg: "$metacritic_score" },
           },
         },
       ])
@@ -392,6 +546,7 @@ async function getTimeData(db, genreFocus, l_year, r_year, colors, foreColor) {
             converted_date: 1,
             price: 1,
             year: { $year: "$converted_date" },
+            metacritic_score: 1,
           },
         },
         {
@@ -407,6 +562,39 @@ async function getTimeData(db, genreFocus, l_year, r_year, colors, foreColor) {
             },
             games_count: { $sum: 1 },
             avg_price: { $avg: "$price" },
+            avg_score: { $avg: "$metacritic_score" },
+          },
+        },
+      ])
+      .toArray();
+
+    const timeMetacriticDataNoFilter = await db
+      .collection("games")
+      .aggregate([
+        {
+          $project: {
+            _id: 0,
+            converted_date: 1,
+            year: { $year: "$converted_date" },
+            metacritic_score: 1,
+          },
+        },
+        {
+          $match: {
+            $and: [
+              { year: { $gte: l_year } },
+              { year: { $lte: r_year } },
+              { metacritic_score: { $gt: 0 } },
+            ],
+          },
+        },
+        {
+          $group: {
+            _id: {
+              year: { $year: "$converted_date" },
+              month: { $month: "$converted_date" },
+            },
+            avg_score: { $avg: "$metacritic_score" },
           },
         },
       ])
@@ -429,16 +617,22 @@ async function getTimeData(db, genreFocus, l_year, r_year, colors, foreColor) {
       if (a_year == b_year) return a_month - b_month;
       else return a_year - b_year;
     });
-
-    let gameCountData = [
-      {
-        name: `${genreFocus} Games`,
-        data: timeData.map((tdata) => ({
-          x: `${tdata._id.year}-${tdata._id.month}`,
-          y: tdata.games_count,
-        })),
-      },
-    ];
+    timeMetacriticData.sort((a, b) => {
+      let a_month = a._id.month;
+      let a_year = a._id.year;
+      let b_month = b._id.month;
+      let b_year = b._id.year;
+      if (a_year == b_year) return a_month - b_month;
+      else return a_year - b_year;
+    });
+    timeMetacriticDataNoFilter.sort((a, b) => {
+      let a_month = a._id.month;
+      let a_year = a._id.year;
+      let b_month = b._id.month;
+      let b_year = b._id.year;
+      if (a_year == b_year) return a_month - b_month;
+      else return a_year - b_year;
+    });
 
     let gameCountNoFilter = [
       {
@@ -448,15 +642,45 @@ async function getTimeData(db, genreFocus, l_year, r_year, colors, foreColor) {
           y: tdata.games_count,
         })),
       },
-      gameCountData[0],
+      {
+        name: `${genreFocus} Games`,
+        data: timeData.map((tdata) => ({
+          x: `${tdata._id.year}-${tdata._id.month}`,
+          y: tdata.games_count,
+        })),
+      },
     ];
 
-    let gamePriceData = [
+    let gamePriceNoFilter = [
       {
-        name: `${genreFocus} Game Price (USD)`,
+        name: `All Games`,
+        data: timeDataNoFilter.map((tdata) => ({
+          x: `${tdata._id.year}-${tdata._id.month}`,
+          y: tdata.avg_price,
+        })),
+      },
+      {
+        name: `${genreFocus} Games`,
         data: timeData.map((tdata) => ({
           x: `${tdata._id.year}-${tdata._id.month}`,
           y: tdata.avg_price,
+        })),
+      },
+    ];
+
+    let gameScoreNoFilter = [
+      {
+        name: `All Games`,
+        data: timeMetacriticDataNoFilter.map((tdata) => ({
+          x: `${tdata._id.year}-${tdata._id.month}`,
+          y: tdata.avg_score,
+        })),
+      },
+      {
+        name: `${genreFocus} Games`,
+        data: timeMetacriticData.map((tdata) => ({
+          x: `${tdata._id.year}-${tdata._id.month}`,
+          y: tdata.avg_score,
         })),
       },
     ];
@@ -478,9 +702,9 @@ async function getTimeData(db, genreFocus, l_year, r_year, colors, foreColor) {
     };
 
     return {
-      gameCountData: gameCountData,
-      gamePriceData: gamePriceData,
       gameCountNoFilter: gameCountNoFilter,
+      gamePriceNoFilter: gamePriceNoFilter,
+      gameScoreNoFilter: gameScoreNoFilter,
       lineChartOptions: lineChartOptions,
     };
   } catch (e) {
@@ -581,13 +805,13 @@ async function getBarData(db, genreFocus, l_year, r_year, colors, foreColor) {
     const topGameFullData = await db
       .collection("games")
       .find({ name: topGame })
-      .project( {
+      .project({
         name: 1,
         short_description: 1,
         release_date: 1,
-        metacritic_score : 1,
+        metacritic_score: 1,
         header_image: 1,
-        peak_ccu : 1,
+        peak_ccu: 1,
       })
       .toArray();
 
