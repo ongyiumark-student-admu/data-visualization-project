@@ -226,7 +226,7 @@ export async function getServerSideProps() {
 
     return {
       props: {
-        genres: gameGenres.map((g) => g._id.genre).sort(),
+        genres: [...new Set(gameGenres.map((g) => g._id.genre).sort())],
         heatmapData: heatmap_series,
         heatmapOptions: heatmapOptions
       },
