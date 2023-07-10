@@ -30,122 +30,257 @@ export default function Genres({
       <Head>
         <title>Dashboard</title>
       </Head>
-      <Nav genreFocus={genreFocus} />
-      <div className="flex-row-center shrink">
-        <h1 className="text-royalblue text-5xl font-extrabold">
-          {genreFocus} Steam Games
-        </h1>
-      </div>
-      <div className="flex-row-center flex-wrap mt-3 mb-6">
-        <Ban
-          number={totalGenreFocus}
-          text1={`${genreFocus} Steam Games`}
-          text2="from 2009 to 2022"
-        />
-        <Ban
-          number={totalGenreDevelopers}
-          text1={`${genreFocus} Game Developers`}
-          text2="from 2009 to 2022"
-        />
-        <Ban
-          number={`$${mostExpensiveGame.price}`}
-          text1={`Most Expensive ${genreFocus} Game`}
-          text2="from 2009 to 2022"
-          text3={mostExpensiveGame.name}
-        />
-        <Ban
-          number={topGameFullData.peak_ccu}
-          text1={`Highest Peak Concurrent Users`}
-          text2={`${genreFocus} Games from 2009 to 2022`}
-          text3={topGameFullData.name}
-        />
-      </div>
 
-      <div className="flex-row-center h-fit px-10 py-6 m-auto w-5/6 shrink text-royalblue text-justify flex-wrap">
-        <img
-          src={topGameFullData.header_image}
-          className="mx-5 rounded-xl my-5"
-        ></img>
-        <div className="flex flex-col mx-5 dynamic-w-sm">
-          <h1 className="font-extrabold text-4xl">{topGameFullData.name}</h1>
-          <p className="font-bold text-lg">
-            {topGameFullData.peak_ccu.toLocaleString("en-US")} Peak Concurrent
-            Users
-          </p>
-          <p className="instructions">
-            {genreFocus} Game with highest peak concurrent users in Steam as of
-            Dec 2022
-          </p>
-
-          <p className="my-3 text-justify max-w-xl">
-            {topGameFullData.short_description}
-          </p>
-
-          <div className="text-justify">
-            <p>
-              <span className="text-slate-700">Release Date:</span>{" "}
-              {topGameFullData.release_date}
-            </p>
-            <p>
-              <span className="text-slate-700">Metacritic Score:</span>{" "}
-              {topGameFullData.metacritic_score}
-            </p>
+      <div className="snap-y lg:snap-mandatory snap-proximity w-screen h-screen overflow-y-scroll">
+        <Nav genreFocus={genreFocus} />
+        <div className="snap-member">
+          <div className="flex-row-member shrink">
+            <h1 className="text-royalblue text-5xl font-extrabold">
+              {genreFocus} Steam Games
+            </h1>
           </div>
-        </div>
-      </div>
-
-      <hr class="h-px my-12 bg-slate-400 border-0" />
-
-      {/* Heatmaps */}
-      <div className="flex-col-center my-12 w-full">
-        <div className="flex-col-center w-4/5">
-          <h1 className="text-2xl font-bold">{`${genreFocus}`} Game Genres</h1>
-          <p className="text-base">Yearly Count from 2009 to 2022</p>
-          <p className="instructions">You may hover to inspect the value</p>
-          <div className="flex-row-center w-full">
-            <h1 className="text-lg font-bold -translate-y-1">{genreFocus}</h1>
-            <ApexCharts
-              className="flex-row-center w-4/5"
-              options={{
-                ...heatmapOptions,
-                yaxis: { show: false },
-              }}
-              series={heatmapData.filter((game) => game.name == genreFocus)}
-              type="heatmap"
-              height={100}
+          <div className="flex-row-center flex-wrap mt-3 mb-6">
+            <Ban
+              number={totalGenreFocus}
+              text1={`${genreFocus} Steam Games`}
+              text2="from 2009 to 2022"
+            />
+            <Ban
+              number={totalGenreDevelopers}
+              text1={`${genreFocus} Game Developers`}
+              text2="from 2009 to 2022"
+            />
+            <Ban
+              number={`$${mostExpensiveGame.price}`}
+              text1={`Most Expensive ${genreFocus} Game`}
+              text2="from 2009 to 2022"
+              text3={mostExpensiveGame.name}
+            />
+            <Ban
+              number={topGameFullData.peak_ccu}
+              text1={`Highest Peak Concurrent Users`}
+              text2={`${genreFocus} Games from 2009 to 2022`}
+              text3={topGameFullData.name}
             />
           </div>
-          <ApexCharts
-            className="flex-row-center w-full"
-            options={heatmapOptions}
-            series={heatmapData.filter((game) => game.name != genreFocus)}
-            type="heatmap"
-            height={600}
-          />
+
+          <div className="flex-row-center px-10 py-6 w-11/12 shrink text-royalblue text-justify flex-wrap">
+            <img
+              src={topGameFullData.header_image}
+              className="rounded-xl m-5"
+            ></img>
+            <div className="flex flex-col dynamic-w-sm">
+              <h1 className="font-extrabold text-4xl">
+                {topGameFullData.name}
+              </h1>
+              <p className="font-bold text-lg">
+                {topGameFullData.peak_ccu.toLocaleString("en-US")} Peak
+                Concurrent Users
+              </p>
+              <p className="instructions">
+                {genreFocus} Game with highest peak concurrent users in Steam as
+                of Dec 2022
+              </p>
+
+              <p className="my-3 text-justify max-w-xl">
+                {topGameFullData.short_description}
+              </p>
+
+              <div className="text-justify">
+                <p>
+                  <span className="text-slate-700">Release Date:</span>{" "}
+                  {topGameFullData.release_date}
+                </p>
+                <p>
+                  <span className="text-slate-700">Metacritic Score:</span>{" "}
+                  {topGameFullData.metacritic_score}
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* Line Charts */}
-        <div className="flex-row-center flex-wrap w-4/5 mt-20 mb-6">
-          <div className="flex-col-center dynamic-w-lg m-6">
-            <h1 className="text-xl font-bold">
-              Number of {`${genreFocus}`} Games
+        <div className="snap-member" id="section-heatmap">
+          <div className="flex-col-center w-11/12">
+            <h1 className="text-2xl font-bold">
+              {`${genreFocus}`} Game Genres
+            </h1>
+            <p className="text-base">Yearly Count from 2009 to 2022</p>
+            <p className="instructions">You may hover to inspect the value</p>
+            <div className="flex-row-center w-full">
+              <h1 className="text-lg font-bold -translate-y-1">{genreFocus}</h1>
+              <ApexCharts
+                className="flex-row-center w-10/12"
+                options={{
+                  ...heatmapOptions,
+                  yaxis: { show: false },
+                }}
+                series={heatmapData.filter((game) => game.name == genreFocus)}
+                type="heatmap"
+                height={90}
+              />
+            </div>
+            <ApexCharts
+              className="flex-row-center w-full"
+              options={heatmapOptions}
+              series={heatmapData.filter((game) => game.name != genreFocus)}
+              type="heatmap"
+              height={500}
+            />
+          </div>
+        </div>
+
+        <div className="snap-member" id="section-line">
+          <div className="flex-row-center flex-wrap w-4/5">
+            <div className="flex-col-center dynamic-w-lg mb-6">
+              <h1 className="text-xl font-bold">
+                Number of {`${genreFocus}`} Games
+              </h1>
+              <p className="text-base">
+                Monthly Count from Jan 2009 to Dec 2022
+              </p>
+              <p className="instructions">
+                You may click the buttons to navigate and highlight to zoom
+              </p>
+              <ApexCharts
+                className="flex-row-center w-full"
+                options={lineChartOptions}
+                series={[gameCountNoFilter[1]]}
+                type="line"
+                height={230}
+              />
+            </div>
+
+            <div className="flex-col-center dynamic-w-lg mb-6">
+              <h1 className="font-bold text-xl">
+                Price of {`${genreFocus}`} Games (USD)
+              </h1>
+              <p className="text-base">
+                Monthly Average Price in USD from Jan 2009 to Dec 2022
+              </p>
+              <p className="instructions">
+                You may click the buttons to navigate and highlight to zoom
+              </p>
+              <ApexCharts
+                className="flex-row-center w-full"
+                options={{
+                  ...lineChartOptions,
+                  yaxis: {
+                    labels: {
+                      formatter: function (label) {
+                        return `$${Math.round(label * 100) / 100}`;
+                      },
+                    },
+                  },
+                }}
+                series={[gamePriceNoFilter[1]]}
+                type="line"
+                height={230}
+              />
+            </div>
+
+            <div className="flex-col-center dynamic-w-lg mb-6">
+              <h1 className="font-bold text-xl">
+                Metacritic Score of {`${genreFocus}`} Games
+              </h1>
+              <p className="text-base">
+                Monthly Average Metacritic Score from Jan 2009 to Dec 2022
+              </p>
+              <p className="instructions">
+                You may click the buttons to navigate and highlight to zoom
+              </p>
+              <ApexCharts
+                className="flex-row-center w-full"
+                options={{
+                  ...lineChartOptions,
+                  yaxis: {
+                    labels: {
+                      formatter: function (label) {
+                        return `${Math.round(label * 100) / 100}`;
+                      },
+                    },
+                  },
+                }}
+                series={[gameScoreNoFilter[1]]}
+                type="line"
+                height={230}
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="snap-member" id="section-bar">
+          <div className="flex-row-center flex-wrap w-11/12 mb-6">
+            <div className="flex-col-center dynamic-w-lg mb-6">
+              <h1 className="font-bold text-xl">
+                Top 10 {`${genreFocus}`} Games
+              </h1>
+              <p className="text-base">Peak Concurrent Users</p>
+              <p className="instructions">You may hover to inspect the value</p>
+              <ApexCharts
+                className="flex-row-center w-full"
+                options={{
+                  ...barChartOptions,
+                }}
+                series={topGamesCCU}
+                type="bar"
+                height={300}
+              />
+            </div>
+
+            <div className="flex-col-center dynamic-w-lg mb-6">
+              <h1 className="font-bold text-xl">
+                Top 10 {`${genreFocus}`} Game Developers
+              </h1>
+              <p className="text-base">
+                Number of {`${genreFocus}`} Games Developed
+              </p>
+              <p className="instructions">You may hover to inspect the value</p>
+              <ApexCharts
+                className="flex-row-center w-full"
+                options={barChartOptions}
+                series={topDevsCount}
+                type="bar"
+                height={300}
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="snap-member">
+          <div className="flex-row-center shrink">
+            <h1 className="text-royalblue text-5xl font-extrabold">
+              Comparative Analysis with All Games
+            </h1>
+          </div>
+          <div className="flex-col-center w-4/5 my-12">
+            <h1 className="text-2xl font-bold">
+              Number of All Games vs. Number of {`${genreFocus}`} Games
             </h1>
             <p className="text-base">Monthly Count from Jan 2009 to Dec 2022</p>
             <p className="instructions">
               You may click the buttons to navigate and highlight to zoom
             </p>
+            <p className="instructions">
+              You may also click the labels to show and hide graphs
+            </p>
             <ApexCharts
               className="flex-row-center w-full"
-              options={lineChartOptions}
-              series={[gameCountNoFilter[1]]}
-              type="line"
+              options={{
+                ...lineChartOptions,
+                colors: [colors[1], colors[0]],
+                dataLabels: { enabled: false },
+              }}
+              series={gameCountNoFilter}
+              type="area"
               height={300}
             />
           </div>
-
-          <div className="flex-col-center dynamic-w-lg m-6">
-            <h1 className="font-bold text-xl">
-              Price of {`${genreFocus}`} Games (USD)
+        </div>
+        <div className="snap-member">
+          <div className="flex-col-center w-4/5 my-6">
+            <h1 className="text-2xl font-bold">
+              Price of All Games vs. Price of {`${genreFocus}`} Games (USD)
             </h1>
             <p className="text-base">
               Monthly Average Price in USD from Jan 2009 to Dec 2022
@@ -153,10 +288,14 @@ export default function Genres({
             <p className="instructions">
               You may click the buttons to navigate and highlight to zoom
             </p>
+            <p className="instructions">
+              You may also click the labels to show and hide graphs
+            </p>
             <ApexCharts
               className="flex-row-center w-full"
               options={{
                 ...lineChartOptions,
+                colors: [colors[1], colors[0]],
                 yaxis: {
                   labels: {
                     formatter: function (label) {
@@ -165,15 +304,17 @@ export default function Genres({
                   },
                 },
               }}
-              series={[gamePriceNoFilter[1]]}
+              series={gamePriceNoFilter}
               type="line"
               height={300}
             />
           </div>
-
-          <div className="flex-col-center dynamic-w-lg m-6">
-            <h1 className="font-bold text-xl">
-              Metacritic Score of {`${genreFocus}`} Games
+        </div>
+        <div className="snap-member">
+          <div className="flex-col-center w-4/5 my-6">
+            <h1 className="text-2xl font-bold">
+              Metacritic Score of All Games vs. Metacritic Score of{" "}
+              {`${genreFocus}`} Games
             </h1>
             <p className="text-base">
               Monthly Average Metacritic Score from Jan 2009 to Dec 2022
@@ -181,10 +322,14 @@ export default function Genres({
             <p className="instructions">
               You may click the buttons to navigate and highlight to zoom
             </p>
+            <p className="instructions">
+              You may also click the labels to show and hide graphs
+            </p>
             <ApexCharts
               className="flex-row-center w-full"
               options={{
                 ...lineChartOptions,
+                colors: [colors[1], colors[0]],
                 yaxis: {
                   labels: {
                     formatter: function (label) {
@@ -193,146 +338,11 @@ export default function Genres({
                   },
                 },
               }}
-              series={[gameScoreNoFilter[1]]}
+              series={gameScoreNoFilter}
               type="line"
               height={300}
             />
           </div>
-        </div>
-
-        {/* Bar Charts */}
-        <div className="flex-row-center flex-wrap w-4/5 my-6">
-          <div className="flex-col-center dynamic-w-lg m-6">
-            <h1 className="font-bold text-xl">
-              Top 10 {`${genreFocus}`} Games
-            </h1>
-            <p className="text-base">Peak Concurrent Users</p>
-            <p className="instructions">You may hover to inspect the value</p>
-            <ApexCharts
-              className="flex-row-center w-full"
-              options={{
-                ...barChartOptions,
-              }}
-              series={topGamesCCU}
-              type="bar"
-              height={300}
-            />
-          </div>
-
-          <div className="flex-col-center dynamic-w-lg m-6">
-            <h1 className="font-bold text-xl">
-              Top 10 {`${genreFocus}`} Game Developers
-            </h1>
-            <p className="text-base">
-              Number of {`${genreFocus}`} Games Developed
-            </p>
-            <p className="instructions">You may hover to inspect the value</p>
-            <ApexCharts
-              className="flex-row-center w-full"
-              options={barChartOptions}
-              series={topDevsCount}
-              type="bar"
-              height={300}
-            />
-          </div>
-        </div>
-      </div>
-
-        <hr class="h-px my-12 bg-slate-400 border-0" />
-      
-      <div className="flex-col-center my-12 w-full">
-        <div className="flex-row-center shrink mt-6">
-          <h1 className="text-royalblue text-5xl font-extrabold">
-            Comparative Analysis with All Games
-          </h1>
-        </div>
-        {/* Dual Line Chart */}
-        <div className="flex-col-center w-4/5 my-12">
-          <h1 className="text-2xl font-bold">
-            Number of All Games vs. Number of {`${genreFocus}`} Games
-          </h1>
-          <p className="text-base">Monthly Count from Jan 2009 to Dec 2022</p>
-          <p className="instructions">
-            You may click the buttons to navigate and highlight to zoom
-          </p>
-          <p className="instructions">
-            You may also click the labels to show and hide graphs
-          </p>
-          <ApexCharts
-            className="flex-row-center w-full"
-            options={{
-              ...lineChartOptions,
-              colors: [colors[1], colors[0]],
-              dataLabels: { enabled: false },
-            }}
-            series={gameCountNoFilter}
-            type="area"
-            height={300}
-          />
-        </div>
-
-        <div className="flex-col-center w-4/5 my-6">
-          <h1 className="text-2xl font-bold">
-            Price of All Games vs. Price of {`${genreFocus}`} Games (USD)
-          </h1>
-          <p className="text-base">
-            Monthly Average Price in USD from Jan 2009 to Dec 2022
-          </p>
-          <p className="instructions">
-            You may click the buttons to navigate and highlight to zoom
-          </p>
-          <p className="instructions">
-            You may also click the labels to show and hide graphs
-          </p>
-          <ApexCharts
-            className="flex-row-center w-full"
-            options={{
-              ...lineChartOptions,
-              colors: [colors[1], colors[0]],
-              yaxis: {
-                labels: {
-                  formatter: function (label) {
-                    return `$${Math.round(label * 100) / 100}`;
-                  },
-                },
-              },
-            }}
-            series={gamePriceNoFilter}
-            type="line"
-            height={300}
-          />
-        </div>
-
-        <div className="flex-col-center w-4/5 my-6">
-          <h1 className="text-2xl font-bold">
-          Metacritic Score of All Games vs. Metacritic Score of {`${genreFocus}`} Games 
-          </h1>
-          <p className="text-base">
-            Monthly Average Metacritic Score from Jan 2009 to Dec 2022
-          </p>
-          <p className="instructions">
-            You may click the buttons to navigate and highlight to zoom
-          </p>
-          <p className="instructions">
-            You may also click the labels to show and hide graphs
-          </p>
-          <ApexCharts
-            className="flex-row-center w-full"
-            options={{
-              ...lineChartOptions,
-              colors: [colors[1], colors[0]],
-              yaxis: {
-                labels: {
-                  formatter: function (label) {
-                    return `${Math.round(label * 100) / 100}`;
-                  },
-                },
-              },
-            }}
-            series={gameScoreNoFilter}
-            type="line"
-            height={300}
-          />
         </div>
       </div>
     </>

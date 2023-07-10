@@ -57,9 +57,9 @@ export default function Home({ genres, heatmapData, heatmapOptions }) {
           using the Steam Web API.
         </p>
         <p>
-          Our main focus will be on Indie games, but a dashboard for each of the
-          other genres can also be generated. You may click the button below to
-          navigate to the indie game dashboard.
+          Our main focus will be on Indie games, but a data story for each of the
+          other genres can also be generated. You may click the button below or the link in the navigation bar to
+          navigate to the indie game data story.
         </p>
 
         <a href="/Indie">
@@ -86,9 +86,9 @@ export default function Home({ genres, heatmapData, heatmapOptions }) {
             >
               <path
                 stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
                 d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
               />
             </svg>
@@ -118,7 +118,7 @@ export default function Home({ genres, heatmapData, heatmapOptions }) {
   );
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   try {
     const client = await clientPromise;
     const db = client.db("steam_games");
