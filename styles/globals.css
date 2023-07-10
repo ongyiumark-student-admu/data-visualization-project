@@ -44,6 +44,10 @@
   @apply w-full min-w-fit max-w-xl;
 }
 
+.snap-member {
+  @apply snap-start snap-always min-h-screen flex flex-col items-center justify-start text-center pt-24;
+}
+
 /* article classes */
 .article h1 {
   @apply text-royalblue text-3xl font-extrabold mb-3 mt-8;
