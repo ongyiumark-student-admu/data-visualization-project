@@ -249,7 +249,7 @@ export default function Genres({
         {/* Dual Line Chart */}
         <div className="flex-col-center w-4/5 my-12">
           <h1 className="text-2xl font-bold">
-            Number of {`${genreFocus}`} Games vs. Number of All Games
+            Number of All Games vs. Number of {`${genreFocus}`} Games
           </h1>
           <p className="text-base">Monthly Count from Jan 2009 to Dec 2022</p>
           <p className="instructions">
@@ -263,16 +263,17 @@ export default function Genres({
             options={{
               ...lineChartOptions,
               colors: [colors[1], colors[0]],
+              dataLabels: { enabled: false },
             }}
             series={gameCountNoFilter}
-            type="line"
+            type="area"
             height={300}
           />
         </div>
 
         <div className="flex-col-center w-4/5 my-6">
           <h1 className="text-2xl font-bold">
-            Price of {`${genreFocus}`} Games vs. Price of All Games (USD)
+            Price of All Games vs. Price of {`${genreFocus}`} Games (USD)
           </h1>
           <p className="text-base">
             Monthly Average Price in USD from Jan 2009 to Dec 2022
@@ -304,8 +305,7 @@ export default function Genres({
 
         <div className="flex-col-center w-4/5 my-6">
           <h1 className="text-2xl font-bold">
-            Metacritic Score of {`${genreFocus}`} Games vs. Metacritic Score of
-            All Games
+          Metacritic Score of All Games vs. Metacritic Score of {`${genreFocus}`} Games 
           </h1>
           <p className="text-base">
             Monthly Average Metacritic Score from Jan 2009 to Dec 2022
