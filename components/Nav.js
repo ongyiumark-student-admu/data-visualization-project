@@ -1,7 +1,6 @@
 export default function Nav( {genreFocus} ) {
   return (
     <>
-    {console.log(genreFocus)}
     <div className="flex-row-center bg-slate-900 text-white w-full h-16 sticky top-0 z-20 mb-10">
       <div className="flex-justify-start w-1/2 py-3 px-5">
         <h1 className="font-extrabold text-xl shrink">

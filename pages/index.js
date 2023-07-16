@@ -41,7 +41,7 @@ export default function Home({ genres, heatmapData, heatmapOptions }) {
               options={heatmapOptions}
               series={heatmapData}
               type="heatmap"
-              height={600}
+              height={480}
             />
 
           </div>
@@ -106,7 +106,7 @@ export default function Home({ genres, heatmapData, heatmapOptions }) {
 
         <div className="flex-row-center flex-wrap">
           {genres.map((g) => (
-            <a key={g} href={`/${g}`} className="m-2 dynamic-w-fit">
+            <a key={g} href={`/dashboards/${g}`} className="m-2 dynamic-w-fit">
               <div className="flex-col-center text-center bg-stone-100 rounded-2xl px-5 h-28 hover:bg-stone-200 w-44">
                 {g}
               </div>

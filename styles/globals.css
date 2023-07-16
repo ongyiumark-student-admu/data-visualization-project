@@ -44,6 +44,10 @@
   @apply w-full min-w-fit max-w-xl;
 }
 
+.dynamic-w-2xl {
+  @apply w-full min-w-fit max-w-2xl;
+}
+
 .snap-member {
   @apply snap-start snap-always min-h-screen flex flex-col items-center justify-start text-center pt-24;
 }
@@ -64,4 +68,8 @@
 /* others */
 .instructions {
   @apply text-xs italic text-stone-500;
+}
+
+.story-text {
+  @apply text-slate-700 text-lg mb-5 text-justify mx-8;
 }

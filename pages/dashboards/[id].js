@@ -1,11 +1,11 @@
 import Head from "next/head";
-import clientPromise from "../lib/mongodb";
+import clientPromise from "../../lib/mongodb";
 import dynamic from "next/dynamic";
 const ApexCharts = dynamic(() => import("react-apexcharts"), { ssr: false });
 
-import Nav from "../components/Nav.js";
-import Ban from "../components/Ban.js";
-import { getGradientColor, linspace } from "../lib/utilities.js";
+import Nav from "../../components/Nav.js";
+import Ban from "../../components/Ban.js";
+import { getGradientColor, linspace } from "../../lib/utilities.js";
 
 export default function Genres({
   genreFocus,
@@ -33,7 +33,7 @@ export default function Genres({
 
       <div className="snap-y lg:snap-mandatory snap-proximity w-screen h-screen overflow-y-scroll">
         <Nav genreFocus={genreFocus} />
-        <div className="snap-member">
+        <div className="snap-member" id="section-bans"> 
           <div className="flex-row-member shrink">
             <h1 className="text-royalblue text-5xl font-extrabold">
               {genreFocus} Steam Games
@@ -64,12 +64,12 @@ export default function Genres({
             />
           </div>
 
-          <div className="flex-row-center px-10 py-6 w-11/12 shrink text-royalblue text-justify flex-wrap">
+          <div className="flex-row-center px-10 w-11/12 shrink text-royalblue text-justify flex-wrap">
             <img
               src={topGameFullData.header_image}
               className="rounded-xl m-5"
             ></img>
-            <div className="flex flex-col dynamic-w-sm">
+            <div className="flex flex-col dynamic-w-sm mx-5">
               <h1 className="font-extrabold text-4xl">
                 {topGameFullData.name}
               </h1>
@@ -110,22 +110,22 @@ export default function Genres({
             <div className="flex-row-center w-full">
               <h1 className="text-lg font-bold -translate-y-1">{genreFocus}</h1>
               <ApexCharts
-                className="flex-row-center w-10/12"
+                className="flex-row-center w-9/12"
                 options={{
                   ...heatmapOptions,
                   yaxis: { show: false },
                 }}
                 series={heatmapData.filter((game) => game.name == genreFocus)}
                 type="heatmap"
-                height={90}
+                height={80}
               />
             </div>
             <ApexCharts
-              className="flex-row-center w-full"
+              className="flex-row-center w-9/12"
               options={heatmapOptions}
               series={heatmapData.filter((game) => game.name != genreFocus)}
               type="heatmap"
-              height={500}
+              height={420}
             />
           </div>
         </div>
@@ -147,7 +147,7 @@ export default function Genres({
                 options={lineChartOptions}
                 series={[gameCountNoFilter[1]]}
                 type="line"
-                height={230}
+                height={200}
               />
             </div>
 
@@ -175,7 +175,7 @@ export default function Genres({
                 }}
                 series={[gamePriceNoFilter[1]]}
                 type="line"
-                height={230}
+                height={200}
               />
             </div>
 
@@ -203,7 +203,7 @@ export default function Genres({
                 }}
                 series={[gameScoreNoFilter[1]]}
                 type="line"
-                height={230}
+                height={200}
               />
             </div>
           </div>
