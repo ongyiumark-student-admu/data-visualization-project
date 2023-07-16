@@ -41,7 +41,7 @@ export default function Home({ genres, heatmapData, heatmapOptions }) {
               options={heatmapOptions}
               series={heatmapData}
               type="heatmap"
-              height={600}
+              height={480}
             />
 
           </div>

@@ -283,7 +283,7 @@ export default function Genres({
 
         <div className="snap-member" id="section-bar">
           <div className="flex-row-center w-full">
-            <p className="story-text max-w-md bg-stone-200 rounded-xl px-10 py-5">
+            <p className="story-text max-w-md bg-stone-200 rounded-xl px-10 py-5 mx-auto">
               Next, we have the top 10 {genreFocus} games based on their peak
               concurrent users. Hovering over the graph allows you to inspect
               the specific values and discover the {genreFocus} games that have
@@ -323,7 +323,7 @@ export default function Genres({
                 height={220}
               />
             </div>
-            <p className="story-text max-w-md bg-stone-200 rounded-xl px-10 py-5">
+            <p className="story-text max-w-md bg-stone-200 rounded-xl px-10 py-5 mx-auto">
               Similarly, we have a visualization displaying the top 10 indie
               game developers based on the number of games they have developed.
               In this vis, you can explore the developers who have made
@@ -412,7 +412,7 @@ export default function Genres({
               Are Indie games better or worse than the average game?
             </p>
             <p className="story-text w-3/5">
-              Check out this visualization below which shows that there isn’t
+              Check out this visualization below which shows that there isn't
               really a clear winner, interestingly enough.
             </p>
           </div>
