@@ -488,6 +488,23 @@ export default function Genres({
           </div>
         </div>
 
+        <div className="snap-member" id="section-insights">
+          <div className="flex-col-center w-4/5 bg-stone-200 rounded-xl h-full my-auto">
+            <p className="text-2xl font-bold text-royalblue my-5">
+              Final Thoughts
+            </p>
+            <p className="story-text w-4/5">
+              1. Indie games are the backbone of the video game industry, having the most games out of any genre, and the most developers as well.
+            </p>
+            <p className="story-text w-4/5">
+              2. Price seems to be a major driver of indie game popularity, especially when you consider that the price has declined slightly over the years when it should really be going up due to inflation.
+            </p>
+            <p className="story-text w-4/5">
+              3. The major sub-genre of indie games is <span className="italic">casual</span>, suggesting that indie game audiences enjoy a more relaxed or leisurely gaming experience.
+            </p>
+          </div>
+        </div>
+
         <div className="snap-member" id="section-thanks">
           <div className="flex-col-center w-4/5 bg-stone-200 rounded-xl h-full my-auto">
             <p className="text-2xl font-bold text-royalblue my-5">
