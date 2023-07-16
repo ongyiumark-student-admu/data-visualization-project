@@ -282,31 +282,7 @@ export default function Genres({
         </div>
 
         <div className="snap-member" id="section-bar">
-          <div className="flex-row-center w-full">
-            <p className="story-text max-w-md bg-stone-200 rounded-xl px-10 py-5 mx-auto">
-              Next, we have the top 10 {genreFocus} games based on their peak
-              concurrent users. Hovering over the graph allows you to inspect
-              the specific values and discover the {genreFocus} games that have
-              captivated the largest audiences.
-            </p>
-            <div className="flex-col-center dynamic-w-2xl w-full">
-              <h1 className="font-bold text-xl">
-                Top 10 {`${genreFocus}`} Games
-              </h1>
-              <p className="text-base">Peak Concurrent Users</p>
-              <p className="instructions">You may hover to inspect the value</p>
-              <ApexCharts
-                className="w-full"
-                options={{
-                  ...barChartOptions,
-                }}
-                series={topGamesCCU}
-                type="bar"
-                height={220}
-              />
-            </div>
-          </div>
-          <div className="flex-row-center w-full">
+        <div className="flex-row-center w-full">
             <div className="flex-col-center dynamic-w-xl w-full">
               <h1 className="font-bold text-xl">
                 Top 10 {`${genreFocus}`} Game Developers
@@ -324,12 +300,74 @@ export default function Genres({
               />
             </div>
             <p className="story-text max-w-md bg-stone-200 rounded-xl px-10 py-5 mx-auto">
-              Similarly, we have a visualization displaying the top 10 indie
+              We have a visualization displaying the top 10 indie
               game developers based on the number of games they have developed.
-              In this vis, you can explore the developers who have made
+              In this chart, you can explore the developers who have made
               significant contributions to the indie gaming industry.
             </p>
           </div>
+          <div className="flex-row-center w-full">
+            <p className="story-text max-w-md bg-stone-200 rounded-xl px-10 py-5 mx-auto">
+              Next, we have the top 10 {genreFocus} games based on their peak
+              concurrent users. Hovering over the graph allows you to inspect
+              the specific values and discover the {genreFocus} games that have
+              captivated the largest audiences.
+            </p>
+            <div className="flex-col-center dynamic-w-2xl w-full">
+              <h1 className="font-bold text-xl">
+                Top 10 {`${genreFocus}`} Games
+              </h1>
+              <p className="text-base">Peak Concurrent Users</p>
+              <p className="instructions">You may hover to inspect the value</p>
+              <ApexCharts
+                className="w-full"
+                options={{
+                  ...barChartOptions,
+                  tooltip: {
+                    fixed: {
+                      enabled: false,
+                      position: "bottomLeft",
+                      offsetX: 0,
+                      offsetY: 0,
+                    },
+                    custom: function ({
+                      series,
+                      seriesIndex,
+                      dataPointIndex,
+                      w,
+                    }) {
+                      var data =
+                        w.globals.initialSeries[seriesIndex].data[
+                          dataPointIndex
+                        ];
+
+                      return (
+                        '<div  class="rounded-3xl flex-col-center">' +
+                        '<div class="bg-stone-100 w-full px-3 py-2 text-sm"> ' +
+                        data.x +
+                        "</div>" +
+                        "<img src=" +
+                        data.image +
+                        "/>" +
+                        '<div class="text-xs px-10 py-3 text-justify">' +
+                        "<div><b>Peak Concurrent Users</b>: " +
+                        data.y.toLocaleString("en-US") +
+                        "</div>" +
+                        '<div class="text-xs w-96"><p class="break-words whitespace-pre-line"><b>Description</b>: ' +
+                        data.description +
+                        "</p></div>" +
+                        "</div>"
+                      );
+                    },
+                  },
+                }}
+                series={topGamesCCU}
+                type="bar"
+                height={220}
+              />
+            </div>
+          </div>
+
         </div>
 
         <div className="snap-member" id="section-count-price">
@@ -856,6 +894,7 @@ async function getBarData(db, genreFocus, l_year, r_year, colors, foreColor) {
             genres: 1,
             name: 1,
             short_description: 1,
+            header_image: 1,
           },
         },
         {
@@ -867,7 +906,16 @@ async function getBarData(db, genreFocus, l_year, r_year, colors, foreColor) {
             ],
           },
         },
-        { $project: { _id: 0, name: 1, peak_ccu: 1, short_description: 1 } },
+        {
+          $project: {
+            _id: 0,
+            name: 1,
+            peak_ccu: 1,
+            short_description: 1,
+            genres: 1,
+            header_image: 1,
+          },
+        },
       ])
       .sort({ peak_ccu: -1 })
       .limit(10)
@@ -880,6 +928,7 @@ async function getBarData(db, genreFocus, l_year, r_year, colors, foreColor) {
           x: tdata.name,
           y: tdata.peak_ccu,
           description: tdata.short_description,
+          image: tdata.header_image,
         })),
       },
     ];
@@ -946,7 +995,7 @@ async function getBarData(db, genreFocus, l_year, r_year, colors, foreColor) {
       .toArray();
 
     return {
-      topGamesCCU: topGamesCCU,
+      topGamesCCU: JSON.parse(JSON.stringify(topGamesCCU)),
       topDevsCount: topDevsCount,
       barChartOptions: barChartOptions,
       topGameFullData: JSON.parse(JSON.stringify(topGameFullData))[0],
