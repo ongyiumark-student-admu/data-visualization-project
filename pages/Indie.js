@@ -33,43 +33,83 @@ export default function Genres({
 
       <div className="snap-y lg:snap-mandatory snap-proximity w-screen h-screen overflow-y-scroll">
         <Nav genreFocus={genreFocus} />
-        <div className="snap-member">
+        <div className="snap-member" id="section-bans">
           <div className="flex-row-member shrink">
             <h1 className="text-royalblue text-5xl font-extrabold">
               {genreFocus} Steam Games
             </h1>
           </div>
-          <div className="flex-row-center flex-wrap mt-3 mb-6">
-            <Ban
-              number={totalGenreFocus}
-              text1={`${genreFocus} Steam Games`}
-              text2="from 2009 to 2022"
-            />
-            <Ban
-              number={totalGenreDevelopers}
-              text1={`${genreFocus} Game Developers`}
-              text2="from 2009 to 2022"
-            />
-            <Ban
-              number={`$${mostExpensiveGame.price}`}
-              text1={`Most Expensive ${genreFocus} Game`}
-              text2="from 2009 to 2022"
-              text3={mostExpensiveGame.name}
-            />
-            <Ban
-              number={topGameFullData.peak_ccu}
-              text1={`Highest Peak Concurrent Users`}
-              text2={`${genreFocus} Games from 2009 to 2022`}
-              text3={topGameFullData.name}
-            />
+          <div className="flex-row-center w-11/12 mt-10">
+            <div className="flex-col-center bg-stone-200 rounded-xl h-full mx-5 px-10 py-5">
+              <p className="text-2xl font-bold text-royalblue my-5">
+                Welcome to the {genreFocus} Steam Games Data Story!
+              </p>
+              <p className="story-text">
+                In this interactive visualization, we will explore various
+                aspects of {genreFocus} games from 2009 to 2022. Let's dive in
+                and discover the fascinating world of independent game
+                development.
+              </p>
+              <p className="story-text">
+                To start us off, here are some basic numbers and highlights
+                about indie games on Steam. We have a staggering number of{" "}
+                {totalGenreFocus.toLocaleString("en-US")} {genreFocus} Steam
+                Games that were released during this period. We also have data
+                on the number of {genreFocus} game developers, which amounts to
+                an impressive {totalGenreDevelopers.toLocaleString("en-US")}{" "}
+                that have poured their hearts and souls into creating unique
+                gaming experiences for players worldwide.
+              </p>
+            </div>
+
+            <div className="grid grid-rows-2 grid-cols-2 gap-1 shrink-0">
+              <Ban
+                number={totalGenreFocus}
+                text1={`${genreFocus} Steam Games`}
+                text2="from 2009 to 2022"
+              />
+              <Ban
+                number={totalGenreDevelopers}
+                text1={`${genreFocus} Game Developers`}
+                text2="from 2009 to 2022"
+              />
+              <Ban
+                number={`$${mostExpensiveGame.price}`}
+                text1={`Most Expensive ${genreFocus} Game`}
+                text2="from 2009 to 2022"
+                text3={mostExpensiveGame.name}
+              />
+              <Ban
+                number={topGameFullData.peak_ccu}
+                text1={`Highest Peak Concurrent Users`}
+                text2={`${genreFocus} Games from 2009 to 2022`}
+                text3={topGameFullData.name}
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="snap-member" id="section-peakccu">
+          <div className="flex-col-center bg-stone-200 rounded-xl w-3/5 py-5 px-10">
+            <p className="text-2xl font-bold text-royalblue my-5">
+              Have you ever played {topGameFullData.name}?
+            </p>
+            <p className="story-text w-4/5">
+              This is the {genreFocus} game with the highest peak concurrent
+              users of {topGameFullData.peak_ccu.toLocaleString("en-US")} from
+              2009 to 2022. We've included an image as well as a short
+              description of the game below. At the time of writing,{" "}
+              {topGameFullData.name} costs ${topGameFullData.price} to purchase
+              on steam.
+            </p>
           </div>
 
-          <div className="flex-row-center px-10 py-6 w-11/12 shrink text-royalblue text-justify flex-wrap">
+          <div className="flex-row-center px-10 w-11/12 shrink text-royalblue text-justify flex-wrap mt-20">
             <img
               src={topGameFullData.header_image}
               className="rounded-xl m-5"
             ></img>
-            <div className="flex flex-col dynamic-w-sm">
+            <div className="flex flex-col dynamic-w-sm mx-5">
               <h1 className="font-extrabold text-4xl">
                 {topGameFullData.name}
               </h1>
@@ -87,6 +127,10 @@ export default function Genres({
               </p>
 
               <div className="text-justify">
+                <p>
+                  <span className="text-slate-700">Price:</span> $
+                  {topGameFullData.price}
+                </p>
                 <p>
                   <span className="text-slate-700">Release Date:</span>{" "}
                   {topGameFullData.release_date}
@@ -110,125 +154,160 @@ export default function Genres({
             <div className="flex-row-center w-full">
               <h1 className="text-lg font-bold -translate-y-1">{genreFocus}</h1>
               <ApexCharts
-                className="flex-row-center w-10/12"
+                className="flex-row-center w-9/12"
                 options={{
                   ...heatmapOptions,
                   yaxis: { show: false },
                 }}
                 series={heatmapData.filter((game) => game.name == genreFocus)}
                 type="heatmap"
-                height={90}
+                height={80}
               />
             </div>
-            <ApexCharts
-              className="flex-row-center w-full"
-              options={heatmapOptions}
-              series={heatmapData.filter((game) => game.name != genreFocus)}
-              type="heatmap"
-              height={500}
-            />
+            <div className="flex-row-center">
+              <ApexCharts
+                className="flex-row-center w-11/12"
+                options={heatmapOptions}
+                series={heatmapData.filter((game) => game.name != genreFocus)}
+                type="heatmap"
+                height={420}
+              />
+              <div className="flex-col-center w-2/5 bg-stone-200 rounded-xl px-8 py-5 mx-5">
+                <p className="story-text mt-5">
+                  Now, let's delve into the genres of {genreFocus} games. This
+                  visualization showcases the yearly count of genres of
+                  {genreFocus} games from 2009 to 2022. Hovering over the
+                  heatmap allows you to inspect the values and observe the
+                  trends and popularity of different {genreFocus} game genres
+                  over the years.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
 
         <div className="snap-member" id="section-line">
-          <div className="flex-row-center flex-wrap w-4/5">
-            <div className="flex-col-center dynamic-w-lg mb-6">
-              <h1 className="text-xl font-bold">
-                Number of {`${genreFocus}`} Games
-              </h1>
-              <p className="text-base">
-                Monthly Count from Jan 2009 to Dec 2022
+          <div className="flex-col-center">
+            <div className="flex flex-col mb-10 w-4/5 bg-stone-200 rounded-xl px-10 py-5">
+              <p className="story-text mt-5">
+                We also have visualizations depicting the monthly average count,
+                price, and metacritic score of {genreFocus} games from 2009 to
+                2022. By clicking the buttons and highlighting specific areas,
+                you can navigate and zoom in to explore trends and fluctuations
+                within the {genreFocus} game market.
               </p>
-              <p className="instructions">
-                You may click the buttons to navigate and highlight to zoom
+              <p className="story-text">
+                Surprisingly, even as indie games get more popular, the price
+                goes down! Why do you think indie games have increased in number
+                throughout the years?
               </p>
-              <ApexCharts
-                className="flex-row-center w-full"
-                options={lineChartOptions}
-                series={[gameCountNoFilter[1]]}
-                type="line"
-                height={230}
-              />
             </div>
+            <div className="flex-row-center w-11/12">
+              <div className="flex-col-center dynamic-w-lg mb-6">
+                <h1 className="text-xl font-bold">
+                  Number of {`${genreFocus}`} Games
+                </h1>
+                <p className="text-sm">
+                  Monthly Count from Jan 2009 to Dec 2022
+                </p>
+                <p className="instructions">
+                  You may click the buttons to navigate and highlight to zoom
+                </p>
+                <ApexCharts
+                  className="flex-row-center w-11/12"
+                  options={lineChartOptions}
+                  series={[gameCountNoFilter[1]]}
+                  type="line"
+                  height={200}
+                />
+              </div>
 
-            <div className="flex-col-center dynamic-w-lg mb-6">
-              <h1 className="font-bold text-xl">
-                Price of {`${genreFocus}`} Games (USD)
-              </h1>
-              <p className="text-base">
-                Monthly Average Price in USD from Jan 2009 to Dec 2022
-              </p>
-              <p className="instructions">
-                You may click the buttons to navigate and highlight to zoom
-              </p>
-              <ApexCharts
-                className="flex-row-center w-full"
-                options={{
-                  ...lineChartOptions,
-                  yaxis: {
-                    labels: {
-                      formatter: function (label) {
-                        return `$${Math.round(label * 100) / 100}`;
+              <div className="flex-col-center dynamic-w-lg mb-6">
+                <h1 className="font-bold text-xl">
+                  Price of {`${genreFocus}`} Games (USD)
+                </h1>
+                <p className="text-sm">
+                  Monthly Average Price in USD from Jan 2009 to Dec 2022
+                </p>
+                <p className="instructions">
+                  You may click the buttons to navigate and highlight to zoom
+                </p>
+                <ApexCharts
+                  className="flex-row-center w-11/12"
+                  options={{
+                    ...lineChartOptions,
+                    yaxis: {
+                      labels: {
+                        formatter: function (label) {
+                          return `$${Math.round(label * 100) / 100}`;
+                        },
                       },
                     },
-                  },
-                }}
-                series={[gamePriceNoFilter[1]]}
-                type="line"
-                height={230}
-              />
-            </div>
+                  }}
+                  series={[gamePriceNoFilter[1]]}
+                  type="line"
+                  height={200}
+                />
+              </div>
 
-            <div className="flex-col-center dynamic-w-lg mb-6">
-              <h1 className="font-bold text-xl">
-                Metacritic Score of {`${genreFocus}`} Games
-              </h1>
-              <p className="text-base">
-                Monthly Average Metacritic Score from Jan 2009 to Dec 2022
-              </p>
-              <p className="instructions">
-                You may click the buttons to navigate and highlight to zoom
-              </p>
-              <ApexCharts
-                className="flex-row-center w-full"
-                options={{
-                  ...lineChartOptions,
-                  yaxis: {
-                    labels: {
-                      formatter: function (label) {
-                        return `${Math.round(label * 100) / 100}`;
+              <div className="flex-col-center dynamic-w-lg mb-6">
+                <h1 className="font-bold text-xl">
+                  Metacritic Score of {`${genreFocus}`} Games
+                </h1>
+                <p className="text-sm">
+                  Monthly Average Metacritic Score from Jan 2009 to Dec 2022
+                </p>
+                <p className="instructions">
+                  You may click the buttons to navigate and highlight to zoom
+                </p>
+                <ApexCharts
+                  className="flex-row-center w-11/12"
+                  options={{
+                    ...lineChartOptions,
+                    yaxis: {
+                      labels: {
+                        formatter: function (label) {
+                          return `${Math.round(label * 100) / 100}`;
+                        },
                       },
                     },
-                  },
-                }}
-                series={[gameScoreNoFilter[1]]}
-                type="line"
-                height={230}
-              />
+                  }}
+                  series={[gameScoreNoFilter[1]]}
+                  type="line"
+                  height={200}
+                />
+              </div>
             </div>
           </div>
         </div>
 
         <div className="snap-member" id="section-bar">
-          <div className="flex-row-center flex-wrap w-11/12 mb-6">
-            <div className="flex-col-center dynamic-w-lg mb-6">
+          <div className="flex-row-center w-full">
+            <p className="story-text max-w-md bg-stone-200 rounded-xl px-10 py-5">
+              Next, we have the top 10 {genreFocus} games based on their peak
+              concurrent users. Hovering over the graph allows you to inspect
+              the specific values and discover the {genreFocus} games that have
+              captivated the largest audiences.
+            </p>
+            <div className="flex-col-center dynamic-w-2xl w-full">
               <h1 className="font-bold text-xl">
                 Top 10 {`${genreFocus}`} Games
               </h1>
               <p className="text-base">Peak Concurrent Users</p>
               <p className="instructions">You may hover to inspect the value</p>
               <ApexCharts
-                className="flex-row-center w-full"
+                className="w-full"
                 options={{
                   ...barChartOptions,
                 }}
                 series={topGamesCCU}
                 type="bar"
-                height={300}
+                height={220}
               />
             </div>
-
-            <div className="flex-col-center dynamic-w-lg mb-6">
+          </div>
+          <div className="flex-row-center w-full">
+            <div className="flex-col-center dynamic-w-xl w-full">
               <h1 className="font-bold text-xl">
                 Top 10 {`${genreFocus}`} Game Developers
               </h1>
@@ -237,80 +316,106 @@ export default function Genres({
               </p>
               <p className="instructions">You may hover to inspect the value</p>
               <ApexCharts
-                className="flex-row-center w-full"
+                className="w-full"
                 options={barChartOptions}
                 series={topDevsCount}
                 type="bar"
-                height={300}
+                height={220}
+              />
+            </div>
+            <p className="story-text max-w-md bg-stone-200 rounded-xl px-10 py-5">
+              Similarly, we have a visualization displaying the top 10 indie
+              game developers based on the number of games they have developed.
+              In this vis, you can explore the developers who have made
+              significant contributions to the indie gaming industry.
+            </p>
+          </div>
+        </div>
+
+        <div className="snap-member" id="section-count-price">
+          <div className="flex-col-center">
+            <h1 className="text-royalblue text-5xl font-extrabold mb-10">
+              Comparative Analysis with All Games
+            </h1>
+            <p className="story-text w-4/5 bg-stone-200 rounded-xl px-10 py-5">
+              This next part of the story provides a broader perspective through
+              a comparative analysis between all games and indie games. The
+              monthly statistics of all games versus indie games from 2009 to
+              2022 is depicted in the graphs below. It seems like the price and
+              count of indie games closely matches that of games on the Steam
+              platform in general!
+            </p>
+          </div>
+          <div className="flex flex-row items-center justify-center w-10/12 mx-10">
+            <div className="flex-col-center w-full my-6">
+              <h1 className="text-xl font-bold">
+                Number of All Games vs. Number of {`${genreFocus}`} Games
+              </h1>
+              <p className="text-base">
+                Monthly Count from Jan 2009 to Dec 2022
+              </p>
+              <p className="instructions">
+                You may click the buttons to navigate and highlight to zoom
+              </p>
+              <p className="instructions">
+                You may also click the labels to show and hide graphs
+              </p>
+              <ApexCharts
+                className="flex-row-center w-4/5"
+                options={{
+                  ...lineChartOptions,
+                  colors: [colors[1], colors[0]],
+                  dataLabels: { enabled: false },
+                }}
+                series={gameCountNoFilter}
+                type="area"
+                height={260}
+              />
+            </div>
+            <div className="flex-col-center w-full my-6">
+              <h1 className="text-xl font-bold">
+                Price of All Games vs. Price of {`${genreFocus}`} Games (USD)
+              </h1>
+              <p className="text-base">
+                Monthly Average Price in USD from Jan 2009 to Dec 2022
+              </p>
+              <p className="instructions">
+                You may click the buttons to navigate and highlight to zoom
+              </p>
+              <p className="instructions">
+                You may also click the labels to show and hide graphs
+              </p>
+              <ApexCharts
+                className="flex-row-center w-4/5"
+                options={{
+                  ...lineChartOptions,
+                  colors: [colors[1], colors[0]],
+                  yaxis: {
+                    labels: {
+                      formatter: function (label) {
+                        return `$${Math.round(label * 100) / 100}`;
+                      },
+                    },
+                  },
+                }}
+                series={gamePriceNoFilter}
+                type="line"
+                height={260}
               />
             </div>
           </div>
         </div>
 
-        <div className="snap-member">
-          <div className="flex-row-center shrink">
-            <h1 className="text-royalblue text-5xl font-extrabold">
-              Comparative Analysis with All Games
-            </h1>
+        <div className="snap-member" id="section-score">
+          <div className="flex-col-center bg-stone-200 rounded-xl py-3">
+            <p className="text-2xl font-bold text-royalblue my-5">
+              Are Indie games better or worse than the average game?
+            </p>
+            <p className="story-text w-3/5">
+              Check out this visualization below which shows that there isn’t
+              really a clear winner, interestingly enough.
+            </p>
           </div>
-          <div className="flex-col-center w-4/5 my-12">
-            <h1 className="text-2xl font-bold">
-              Number of All Games vs. Number of {`${genreFocus}`} Games
-            </h1>
-            <p className="text-base">Monthly Count from Jan 2009 to Dec 2022</p>
-            <p className="instructions">
-              You may click the buttons to navigate and highlight to zoom
-            </p>
-            <p className="instructions">
-              You may also click the labels to show and hide graphs
-            </p>
-            <ApexCharts
-              className="flex-row-center w-full"
-              options={{
-                ...lineChartOptions,
-                colors: [colors[1], colors[0]],
-                dataLabels: { enabled: false },
-              }}
-              series={gameCountNoFilter}
-              type="area"
-              height={300}
-            />
-          </div>
-        </div>
-        <div className="snap-member">
-          <div className="flex-col-center w-4/5 my-6">
-            <h1 className="text-2xl font-bold">
-              Price of All Games vs. Price of {`${genreFocus}`} Games (USD)
-            </h1>
-            <p className="text-base">
-              Monthly Average Price in USD from Jan 2009 to Dec 2022
-            </p>
-            <p className="instructions">
-              You may click the buttons to navigate and highlight to zoom
-            </p>
-            <p className="instructions">
-              You may also click the labels to show and hide graphs
-            </p>
-            <ApexCharts
-              className="flex-row-center w-full"
-              options={{
-                ...lineChartOptions,
-                colors: [colors[1], colors[0]],
-                yaxis: {
-                  labels: {
-                    formatter: function (label) {
-                      return `$${Math.round(label * 100) / 100}`;
-                    },
-                  },
-                },
-              }}
-              series={gamePriceNoFilter}
-              type="line"
-              height={300}
-            />
-          </div>
-        </div>
-        <div className="snap-member">
           <div className="flex-col-center w-4/5 my-6">
             <h1 className="text-2xl font-bold">
               Metacritic Score of All Games vs. Metacritic Score of{" "}
@@ -326,7 +431,7 @@ export default function Genres({
               You may also click the labels to show and hide graphs
             </p>
             <ApexCharts
-              className="flex-row-center w-full"
+              className="flex-row-center w-4/5"
               options={{
                 ...lineChartOptions,
                 colors: [colors[1], colors[0]],
@@ -342,6 +447,20 @@ export default function Genres({
               type="line"
               height={300}
             />
+          </div>
+        </div>
+
+        <div className="snap-member" id="section-thanks">
+          <div className="flex-col-center w-4/5 bg-stone-200 rounded-xl h-full my-auto">
+            <p className="text-2xl font-bold text-royalblue my-5">
+              Thanks for Reading!
+            </p>
+            <p className="story-text w-4/5">
+              Thanks for taking the time to look through our project! If you
+              want to dig deeper, check out our visualizations about other
+              genres by going back to the home page and clicking on a genre
+              you're interested in.
+            </p>
           </div>
         </div>
       </div>
@@ -822,6 +941,7 @@ async function getBarData(db, genreFocus, l_year, r_year, colors, foreColor) {
         metacritic_score: 1,
         header_image: 1,
         peak_ccu: 1,
+        price: 1,
       })
       .toArray();
 
@@ -902,12 +1022,12 @@ async function getBanData(db, genreFocus, l_year, r_year, colors, foreColor) {
   }
 }
 
-export async function getStaticProps({ params }) {
+export async function getStaticProps() {
   try {
     const client = await clientPromise;
     const db = client.db("steam_games");
 
-    let genreFocus = params.id;
+    let genreFocus = "Indie";
     let l_year = 2009;
     let r_year = 2022;
     let colors = ["#0504aa", "#006600"];
@@ -959,32 +1079,5 @@ export async function getStaticProps({ params }) {
     };
   } catch (e) {
     console.error(e);
-  }
-}
-
-export async function getStaticPaths() {
-  try {
-    const client = await clientPromise;
-    const db = client.db("steam_games");
-
-    const genres = await db
-      .collection("games")
-      .aggregate([
-        { $project: { genres: 1 } },
-        { $unwind: "$genres" },
-        { $group: { _id: { genres: "$genres" }, n: { $sum: 1 } } },
-      ])
-      .toArray();
-
-    const result = genres.map((g) => ({
-      params: { id: g._id.genres },
-    }));
-
-    return {
-      paths: result,
-      fallback: false,
-    };
-  } catch (e) {
-    console.log(e);
   }
 }
