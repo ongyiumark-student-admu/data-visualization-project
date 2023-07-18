@@ -46,16 +46,16 @@ export default function Genres({
               </p>
               <p className="story-text">
                 In this interactive visualization, we will explore various
-                aspects of {genreFocus} games from 2009 to 2022. Let's dive in
+                aspects of {genreFocus.toLowerCase()} games from 2009 to 2022. Let's dive in
                 and discover the fascinating world of independent game
                 development.
               </p>
               <p className="story-text">
                 To start us off, here are some basic numbers and highlights
                 about indie games on Steam. We have a staggering number of{" "}
-                {totalGenreFocus.toLocaleString("en-US")} {genreFocus} Steam
+                {totalGenreFocus.toLocaleString("en-US")} {genreFocus.toLowerCase()} Steam
                 Games that were released during this period. We also have data
-                on the number of {genreFocus} game developers, which amounts to
+                on the number of {genreFocus.toLowerCase()} game developers, which amounts to
                 an impressive {totalGenreDevelopers.toLocaleString("en-US")}{" "}
                 that have poured their hearts and souls into creating unique
                 gaming experiences for players worldwide.
@@ -65,7 +65,7 @@ export default function Genres({
             <div className="grid grid-rows-2 grid-cols-2 gap-1 shrink-0">
               <Ban
                 number={totalGenreFocus}
-                text1={`${genreFocus} Steam Games`}
+                text1={`${genreFocus} Games on Steam`}
                 text2="from 2009 to 2022"
               />
               <Ban
@@ -95,9 +95,9 @@ export default function Genres({
               Have you ever played {topGameFullData.name}?
             </p>
             <p className="story-text w-4/5">
-              This is the {genreFocus} game with the highest peak concurrent
+              This is the {genreFocus.toLowerCase()} game with the highest peak concurrent
               users of {topGameFullData.peak_ccu.toLocaleString("en-US")} from
-              2009 to 2022. We've included an image as well as a short
+              2009 to 2022. We've included an image and a short
               description of the game below. At the time of writing,{" "}
               {topGameFullData.name} costs ${topGameFullData.price} to purchase
               on steam.
@@ -147,7 +147,7 @@ export default function Genres({
         <div className="snap-member" id="section-heatmap">
           <div className="flex-col-center w-11/12">
             <h1 className="text-2xl font-bold">
-              {`${genreFocus}`} Game Genres
+              {`${genreFocus}`} Game Subgenres
             </h1>
             <p className="text-base">Yearly Count from 2009 to 2022</p>
             <p className="instructions">You may hover to inspect the value</p>
@@ -174,11 +174,11 @@ export default function Genres({
               />
               <div className="flex-col-center w-2/5 bg-stone-200 rounded-xl px-8 py-5 mx-5">
                 <p className="story-text mt-5">
-                  Now, let's delve into the genres of {genreFocus} games. This
-                  visualization showcases the yearly count of genres of
-                  {genreFocus} games from 2009 to 2022. Hovering over the
+                  Now, let's delve into the subgenres of {genreFocus.toLowerCase()} games. This
+                  visualization showcases the yearly count of genres of{" "}
+                  {genreFocus.toLowerCase()} games from 2009 to 2022. Hovering over the
                   heatmap allows you to inspect the values and observe the
-                  trends and popularity of different {genreFocus} game genres
+                  trends and popularity of different {genreFocus.toLowerCase()} game genres
                   over the years.
                 </p>
               </div>
@@ -191,10 +191,10 @@ export default function Genres({
             <div className="flex flex-col mb-10 w-4/5 bg-stone-200 rounded-xl px-10 py-5">
               <p className="story-text mt-5">
                 We also have visualizations depicting the monthly average count,
-                price, and metacritic score of {genreFocus} games from 2009 to
+                price, and metacritic score of {genreFocus.toLowerCase()} games from 2009 to
                 2022. By clicking the buttons and highlighting specific areas,
                 you can navigate and zoom in to explore trends and fluctuations
-                within the {genreFocus} game market.
+                within the {genreFocus.toLowerCase()} game market.
               </p>
               <p className="story-text">
                 Surprisingly, even as indie games get more popular, the price
@@ -302,15 +302,15 @@ export default function Genres({
             <p className="story-text max-w-md bg-stone-200 rounded-xl px-10 py-5 mx-auto">
               We have a visualization displaying the top 10 indie
               game developers based on the number of games they have developed.
-              In this chart, you can explore the developers who have made
+              In this chart, you can see the developers who have made
               significant contributions to the indie gaming industry.
             </p>
           </div>
           <div className="flex-row-center w-full">
             <p className="story-text max-w-md bg-stone-200 rounded-xl px-10 py-5 mx-auto">
-              Next, we have the top 10 {genreFocus} games based on their peak
+              Next, we have the top 10 {genreFocus.toLowerCase()} games based on their peak
               concurrent users. Hovering over the graph allows you to inspect
-              the specific values and discover the {genreFocus} games that have
+              the specific values and discover the {genreFocus.toLowerCase()} games that have
               captivated the largest audiences.
             </p>
             <div className="flex-col-center dynamic-w-2xl w-full">
@@ -500,7 +500,7 @@ export default function Genres({
               2. Price seems to be a major driver of indie game popularity, especially when you consider that the price has declined slightly over the years when it should really be going up due to inflation.
             </p>
             <p className="story-text w-4/5">
-              3. The major sub-genre of indie games is <span className="italic">casual</span>, suggesting that indie game audiences enjoy a more relaxed or leisurely gaming experience.
+              3. The major subgenre of indie games is <span className="italic">casual</span>, suggesting that indie game audiences enjoy a more relaxed or leisurely gaming experience.
             </p>
           </div>
         </div>
