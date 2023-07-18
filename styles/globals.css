@@ -49,7 +49,7 @@
 }
 
 .snap-member {
-  @apply snap-start snap-always min-h-screen flex flex-col items-center justify-start text-center pt-24;
+  @apply snap-start snap-always min-h-screen flex flex-col items-center justify-center text-center pt-24;
 }
 
 /* article classes */
